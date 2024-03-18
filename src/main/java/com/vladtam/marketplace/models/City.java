@@ -13,7 +13,6 @@ public class City implements BaseModel {
     private Integer id;
     private String name;
     private String region;
-    private static CityDAO cityDao = new CityDAO();
 
     public City(){}
 

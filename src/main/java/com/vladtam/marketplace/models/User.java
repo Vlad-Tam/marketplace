@@ -137,9 +137,9 @@ public class User implements BaseModel{
 
     @Override
     public String outputFullInfo() {
-        String salesListInfo = new String();
-        String wishListInfo = new String();
-        String commentsListInfo = new String();
+        String salesListInfo = "";
+        String wishListInfo = "";
+        String commentsListInfo = "";
         if(salesList != null) {
             for (Advertisement s : salesList) {
                 salesListInfo += s;
