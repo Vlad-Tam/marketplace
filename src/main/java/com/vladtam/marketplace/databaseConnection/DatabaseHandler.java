@@ -12,10 +12,10 @@ public class DatabaseHandler {
     public static final Logger logger = LoggerFactory.getLogger(DatabaseHandler.class);
 
     public Connection getConnection(){
-        String connectionString = "jdbc:postgresql://" + Config.dbHost + ":" + Config.dbPort +
-                "/" + Config.dbName + "?autoReconnect=true&useSSL=false";
+        String connectionString = "jdbc:postgresql://" + Config.getDbHost() + ":" + Config.getDbPort() +
+                "/" + Config.getDbName() + "?autoReconnect=true&useSSL=false";
         try {
-            dbconnection = DriverManager.getConnection(connectionString, Config.dbUser, Config.dbPass);
+            dbconnection = DriverManager.getConnection(connectionString, Config.getDbUser(), Config.getDbPass());
         } catch(SQLException e){
             logger.error("Database connect SQLException error", e);
         }
