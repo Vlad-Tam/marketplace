@@ -1,11 +1,10 @@
 package com.vladtam.marketplace.views;
 
-import com.vladtam.marketplace.dao.BaseDAO;
 import com.vladtam.marketplace.dao.CityDAO;
 import com.vladtam.marketplace.models.Address;
 import com.vladtam.marketplace.models.BaseModel;
-import com.vladtam.marketplace.models.City;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
 
@@ -75,6 +74,9 @@ public class AddressView implements BaseView{
                                 System.out.println("Input flat number: ");
                                 address.setFlatNumber(scan.nextInt());
                                 scan.nextLine();
+                                break;
+                            default:
+                                System.out.println("Try again");
                                 break;
                         }
                     } else throw new NumberFormatException();

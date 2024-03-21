@@ -1,7 +1,5 @@
 package com.vladtam.marketplace.views;
 
-import com.vladtam.marketplace.dao.BaseDAO;
-import com.vladtam.marketplace.dao.CityDAO;
 import com.vladtam.marketplace.models.BaseModel;
 import com.vladtam.marketplace.models.City;
 
@@ -39,6 +37,9 @@ public class CityView implements BaseView{
                             case 2:
                                 System.out.println("Input region: ");
                                 city.setRegion(scan.nextLine());
+                                break;
+                            default:
+                                System.out.println("Try again");
                                 break;
                         }
                     } else throw new NumberFormatException();

@@ -1,6 +1,6 @@
 package com.vladtam.marketplace.dao;
 
-import com.vladtam.marketplace.databaseConnection.DatabaseHandler;
+import com.vladtam.marketplace.database.DatabaseHandler;
 import com.vladtam.marketplace.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,15 +77,8 @@ public class AdvertisementDAO implements BaseDAO{
         Advertisement advertisement = (Advertisement)bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, advertisement.getName());
-            pstmt.setString(2, advertisement.getDescription());
-            pstmt.setDouble(3, advertisement.getPrice());
-            pstmt.setBoolean(4, advertisement.getSaleStatus());
-            pstmt.setLong(5, advertisement.getVendor().getId());
-            pstmt.setLong(6, advertisement.getCategory().getId());
-
-            int rowsInserted = pstmt.executeUpdate();
-            if (rowsInserted > 0) {
+            initializePreparedStatement(pstmt, advertisement);
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("A new advertisement was inserted successfully!");
             }
             try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
@@ -104,8 +97,7 @@ public class AdvertisementDAO implements BaseDAO{
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(DELETE_REQUEST)) {
             pstmt.setInt(1, id);
-            int rowsDeleted = pstmt.executeUpdate();
-            if (rowsDeleted > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("Advertisement was deleted successfully!");
             }
         } catch (SQLException e) {
@@ -118,19 +110,22 @@ public class AdvertisementDAO implements BaseDAO{
         Advertisement advertisement = (Advertisement)bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(UPDATE_REQUEST)) {
-            pstmt.setString(1, advertisement.getName());
-            pstmt.setString(2, advertisement.getDescription());
-            pstmt.setDouble(3, advertisement.getPrice());
-            pstmt.setBoolean(4, advertisement.getSaleStatus());
-            pstmt.setLong(5, advertisement.getVendor().getId());
-            pstmt.setLong(6, advertisement.getCategory().getId());
+            initializePreparedStatement(pstmt, advertisement);
             pstmt.setLong(7, advertisement.getId());
-            int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("Advertisement was updated successfully!");
             }
         } catch (SQLException e) {
             logger.error("Database update object error", e);
         }
+    }
+
+    private void initializePreparedStatement(PreparedStatement pstmt, Advertisement advertisement) throws SQLException {
+        pstmt.setString(1, advertisement.getName());
+        pstmt.setString(2, advertisement.getDescription());
+        pstmt.setDouble(3, advertisement.getPrice());
+        pstmt.setBoolean(4, advertisement.getSaleStatus());
+        pstmt.setLong(5, advertisement.getVendor().getId());
+        pstmt.setLong(6, advertisement.getCategory().getId());
     }
 }

@@ -1,7 +1,6 @@
 package com.vladtam.marketplace.dao;
 
 import com.vladtam.marketplace.models.BaseModel;
-
 import java.util.List;
 
 public interface BaseDAO {

@@ -1,6 +1,6 @@
 package com.vladtam.marketplace.dao;
 
-import com.vladtam.marketplace.databaseConnection.DatabaseHandler;
+import com.vladtam.marketplace.database.DatabaseHandler;
 import com.vladtam.marketplace.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,13 +80,8 @@ public class ReviewDAO implements BaseDAO{
         Review review = (Review) bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setByte(1, review.getRate());
-            pstmt.setString(2, review.getComment());
-            pstmt.setLong(3, review.getSender().getId());
-            pstmt.setLong(4, review.getReceiver().getId());
-
-            int rowsInserted = pstmt.executeUpdate();
-            if (rowsInserted > 0) {
+            initializePreparedStatement(pstmt, review);
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("A new review was inserted successfully!");
             }
             try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
@@ -99,13 +94,13 @@ public class ReviewDAO implements BaseDAO{
         }
         return -1;
     }
+
     @Override
     public void delete(int id) {
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(DELETE_REQUEST)) {
             pstmt.setInt(1, id);
-            int rowsDeleted = pstmt.executeUpdate();
-            if (rowsDeleted > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("Review was deleted successfully!");
             }
         } catch (SQLException e) {
@@ -118,17 +113,20 @@ public class ReviewDAO implements BaseDAO{
         Review review = (Review) bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(UPDATE_REQUEST)) {
-            pstmt.setByte(1, review.getRate());
-            pstmt.setString(2, review.getComment());
-            pstmt.setLong(3, review.getSender().getId());
-            pstmt.setLong(4, review.getReceiver().getId());
+            initializePreparedStatement(pstmt, review);
             pstmt.setLong(5, review.getId());
-            int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("Review was updated successfully!");
             }
         } catch (SQLException e) {
             logger.error("Database update object error", e);
         }
+    }
+
+    private void initializePreparedStatement(PreparedStatement pstmt, Review review) throws SQLException {
+        pstmt.setByte(1, review.getRate());
+        pstmt.setString(2, review.getComment());
+        pstmt.setLong(3, review.getSender().getId());
+        pstmt.setLong(4, review.getReceiver().getId());
     }
 }

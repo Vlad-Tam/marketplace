@@ -1,6 +1,5 @@
 package com.vladtam.marketplace.views;
 
-import com.vladtam.marketplace.dao.BaseDAO;
 import com.vladtam.marketplace.dao.CategoryDAO;
 import com.vladtam.marketplace.dao.UserDAO;
 import com.vladtam.marketplace.models.*;
@@ -87,9 +86,12 @@ public class AdvertisementView implements BaseView{
                                 scan.nextLine();
                                 if(vendorChoice == 0){
                                     UserView userView = new UserView();
-                                    advertisement.setVendor((User) userDao.getFullInfo(userDao.createNew(userView.createNew(scan))));
+                                    advertisement.setVendor(userDao.getFullInfo(userDao.createNew(userView.createNew(scan))));
                                 }else
-                                    advertisement.setVendor((User) userDao.getFullInfo(usersList.get(vendorChoice - 1).getId()));
+                                    advertisement.setVendor(userDao.getFullInfo(usersList.get(vendorChoice - 1).getId()));
+                                break;
+                            default:
+                                System.out.println("Try again");
                                 break;
                         }
                     } else throw new NumberFormatException();

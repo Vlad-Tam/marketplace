@@ -1,10 +1,5 @@
 package com.vladtam.marketplace.models;
 
-import com.vladtam.marketplace.dao.BaseDAO;
-import com.vladtam.marketplace.dao.UserDAO;
-import com.vladtam.marketplace.views.BaseView;
-import com.vladtam.marketplace.views.UserView;
-
 import java.util.*;
 
 public class User implements BaseModel{
@@ -137,28 +132,28 @@ public class User implements BaseModel{
 
     @Override
     public String outputFullInfo() {
-        String salesListInfo = "";
-        String wishListInfo = "";
-        String commentsListInfo = "";
+        StringBuilder salesListInfo = new StringBuilder();
+        StringBuilder wishListInfo = new StringBuilder();
+        StringBuilder commentsListInfo = new StringBuilder();
         if(salesList != null) {
             for (Advertisement s : salesList) {
-                salesListInfo += s;
-                salesListInfo += "\n";
+                salesListInfo.append(s);
+                salesListInfo.append("\n");
             }
-        }else salesListInfo = "empty\n";
+        }
         if(wishList != null) {
             for (Advertisement w : wishList) {
-                wishListInfo += w;
-                wishListInfo += "\n";
+                wishListInfo.append(w);
+                wishListInfo.append("\n");
             }
-        }else wishListInfo = "empty\n";
+        }
         if(commentsList != null) {
             for (Review r : commentsList) {
-                commentsListInfo += r;
-                commentsListInfo += " \""+ r.getComment() +"\"";
-                commentsListInfo += "\n";
+                commentsListInfo.append(r);
+                commentsListInfo.append(" \"").append(r.getComment()).append("\"");
+                commentsListInfo.append("\n");
             }
-        }else commentsListInfo = "empty\n";
+        }
         return "USER INFO:\n" +
                 "id = " + id + "\n" +
                 "name = " + name + "\n" +

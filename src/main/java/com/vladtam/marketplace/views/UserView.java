@@ -1,7 +1,6 @@
 package com.vladtam.marketplace.views;
 
 import com.vladtam.marketplace.dao.AddressDAO;
-import com.vladtam.marketplace.dao.BaseDAO;
 import com.vladtam.marketplace.models.*;
 
 import java.util.List;
@@ -82,6 +81,9 @@ public class UserView implements BaseView{
                                     user.setAddress(addressDao.getFullInfo(addressDao.createNew(addressView.createNew(scan))));
                                 }else
                                     user.setAddress(addressDao.getFullInfo(addressesList.get(addressChoice - 1).getId()));
+                                break;
+                            default:
+                                System.out.println("Try again");
                                 break;
                         }
                     } else throw new NumberFormatException();

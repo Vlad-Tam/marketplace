@@ -1,7 +1,8 @@
 package com.vladtam.marketplace.dao;
 
-import com.vladtam.marketplace.databaseConnection.DatabaseHandler;
+import com.vladtam.marketplace.database.DatabaseHandler;
 import com.vladtam.marketplace.models.Address;
+import com.vladtam.marketplace.models.Advertisement;
 import com.vladtam.marketplace.models.BaseModel;
 import com.vladtam.marketplace.models.City;
 import org.slf4j.Logger;
@@ -69,13 +70,8 @@ public class AddressDAO implements BaseDAO{
         Address address = (Address)bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, address.getStreet());
-            pstmt.setInt(2, address.getHouseNumber());
-            pstmt.setInt(3, address.getFlatNumber());
-            pstmt.setLong(4, address.getCity().getId());
-
-            int rowsInserted = pstmt.executeUpdate();
-            if (rowsInserted > 0) {
+            initializePreparedStatement(pstmt, address);
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("A new address was inserted successfully!");
             }
             try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
@@ -94,8 +90,7 @@ public class AddressDAO implements BaseDAO{
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(DELETE_REQUEST)) {
             pstmt.setInt(1, id);
-            int rowsDeleted = pstmt.executeUpdate();
-            if (rowsDeleted > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("Address was deleted successfully!");
             }
         } catch (SQLException e) {
@@ -108,17 +103,20 @@ public class AddressDAO implements BaseDAO{
         Address address = (Address)bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(UPDATE_REQUEST)) {
-            pstmt.setString(1, address.getStreet());
-            pstmt.setInt(2, address.getHouseNumber());
-            pstmt.setInt(3, address.getFlatNumber());
-            pstmt.setLong(4, address.getCity().getId());
+            initializePreparedStatement(pstmt, address);
             pstmt.setLong(5, address.getId());
-            int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("Address was updated successfully!");
             }
         } catch (SQLException e) {
             logger.error("Database update object error", e);
         }
+    }
+
+    private void initializePreparedStatement(PreparedStatement pstmt, Address address) throws SQLException {
+        pstmt.setString(1, address.getStreet());
+        pstmt.setInt(2, address.getHouseNumber());
+        pstmt.setInt(3, address.getFlatNumber());
+        pstmt.setLong(4, address.getCity().getId());
     }
 }

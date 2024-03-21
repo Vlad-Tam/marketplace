@@ -1,13 +1,6 @@
 package com.vladtam.marketplace.models;
 
-import com.vladtam.marketplace.dao.AdvertisementDAO;
-import com.vladtam.marketplace.dao.BaseDAO;
-import com.vladtam.marketplace.views.AdvertisementView;
-import com.vladtam.marketplace.views.BaseView;
-
-import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Advertisement implements BaseModel{
     private Integer id;

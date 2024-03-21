@@ -1,12 +1,6 @@
 package com.vladtam.marketplace.models;
 
-import com.vladtam.marketplace.dao.*;
-import com.vladtam.marketplace.views.BaseView;
-import com.vladtam.marketplace.views.ReviewView;
-
-import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Review implements BaseModel {
     private Integer id;

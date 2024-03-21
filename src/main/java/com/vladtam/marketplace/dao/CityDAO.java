@@ -1,8 +1,9 @@
 package com.vladtam.marketplace.dao;
 
-import com.vladtam.marketplace.databaseConnection.DatabaseHandler;
+import com.vladtam.marketplace.database.DatabaseHandler;
 import com.vladtam.marketplace.models.BaseModel;
 import com.vladtam.marketplace.models.City;
+import com.vladtam.marketplace.models.Review;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,10 +58,8 @@ public class CityDAO implements BaseDAO{
         City city = (City)bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, city.getName());
-            pstmt.setString(2, city.getRegion());
-            int rowsInserted = pstmt.executeUpdate();
-            if (rowsInserted > 0) {
+            initializePreparedStatement(pstmt, city);
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("A new city was inserted successfully!");
             }
             try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
@@ -79,8 +78,7 @@ public class CityDAO implements BaseDAO{
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(DELETE_REQUEST)) {
             pstmt.setInt(1, id);
-            int rowsDeleted = pstmt.executeUpdate();
-            if (rowsDeleted > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("City was deleted successfully!");
             }
         } catch (SQLException e) {
@@ -93,15 +91,18 @@ public class CityDAO implements BaseDAO{
         City city = (City) bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(UPDATE_REQUEST)) {
-            pstmt.setString(1, city.getName());
-            pstmt.setString(2, city.getRegion());
+            initializePreparedStatement(pstmt, city);
             pstmt.setLong(3, city.getId());
-            int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("City was updated successfully!");
             }
         } catch (SQLException e) {
             logger.error("Database update object error", e);
         }
+    }
+
+    private void initializePreparedStatement(PreparedStatement pstmt, City city) throws SQLException {
+        pstmt.setString(1, city.getName());
+        pstmt.setString(2, city.getRegion());
     }
 }

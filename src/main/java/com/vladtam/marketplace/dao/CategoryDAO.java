@@ -1,8 +1,9 @@
 package com.vladtam.marketplace.dao;
 
-import com.vladtam.marketplace.databaseConnection.DatabaseHandler;
+import com.vladtam.marketplace.database.DatabaseHandler;
 import com.vladtam.marketplace.models.BaseModel;
 import com.vladtam.marketplace.models.Category;
+import com.vladtam.marketplace.models.City;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,10 +58,8 @@ public class CategoryDAO implements BaseDAO{
         Category category = (Category)bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, category.getName());
-            pstmt.setString(2, category.getDescription());
-            int rowsInserted = pstmt.executeUpdate();
-            if (rowsInserted > 0) {
+            initializePreparedStatement(pstmt, category);
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("A new category was inserted successfully!");
             }
             try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
@@ -79,8 +78,7 @@ public class CategoryDAO implements BaseDAO{
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(DELETE_REQUEST)) {
             pstmt.setInt(1, id);
-            int rowsDeleted = pstmt.executeUpdate();
-            if (rowsDeleted > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("Category was deleted successfully!");
             }
         } catch (SQLException e) {
@@ -93,15 +91,18 @@ public class CategoryDAO implements BaseDAO{
         Category category = (Category) bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(UPDATE_REQUEST)) {
-            pstmt.setString(1, category.getName());
-            pstmt.setString(2, category.getDescription());
+            initializePreparedStatement(pstmt, category);
             pstmt.setLong(3, category.getId());
-            int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("Category was updated successfully!");
             }
         } catch (SQLException e) {
             logger.error("Database update object error", e);
         }
+    }
+
+    private void initializePreparedStatement(PreparedStatement pstmt, Category category) throws SQLException {
+        pstmt.setString(1, category.getName());
+        pstmt.setString(2, category.getDescription());
     }
 }

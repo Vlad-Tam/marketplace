@@ -1,13 +1,6 @@
 package com.vladtam.marketplace.models;
 
-import com.vladtam.marketplace.dao.AddressDAO;
-import com.vladtam.marketplace.dao.BaseDAO;
-import com.vladtam.marketplace.views.AddressView;
-import com.vladtam.marketplace.views.BaseView;
-
-import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Address implements BaseModel{
     private Integer id;

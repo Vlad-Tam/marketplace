@@ -1,6 +1,5 @@
 package com.vladtam.marketplace.views;
 
-import com.vladtam.marketplace.dao.BaseDAO;
 import com.vladtam.marketplace.dao.UserDAO;
 import com.vladtam.marketplace.models.*;
 
@@ -74,6 +73,9 @@ public class ReviewView implements BaseView{
                                     review.setReceiver(receiverDao.getFullInfo(receiverDao.createNew(receiverView.createNew(scan))));
                                 }else
                                     review.setReceiver(receiverDao.getFullInfo(receiversList.get(receiverChoice - 1).getId()));
+                                break;
+                            default:
+                                System.out.println("Try again");
                                 break;
                         }
                     } else throw new NumberFormatException();

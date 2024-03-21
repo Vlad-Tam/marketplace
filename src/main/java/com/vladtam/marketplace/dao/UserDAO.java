@@ -1,6 +1,6 @@
 package com.vladtam.marketplace.dao;
 
-import com.vladtam.marketplace.databaseConnection.DatabaseHandler;
+import com.vladtam.marketplace.database.DatabaseHandler;
 import com.vladtam.marketplace.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,15 +106,8 @@ public class UserDAO implements BaseDAO{
         User user = (User)bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, user.getName());
-            pstmt.setString(2, user.getSurname());
-            pstmt.setString(3, user.getPhoneNumber());
-            pstmt.setString(4, user.getEmail());
-            pstmt.setString(5, user.getPassword());
-            pstmt.setLong(6, user.getAddress().getId());
-
-            int rowsInserted = pstmt.executeUpdate();
-            if (rowsInserted > 0) {
+            initializePreparedStatement(pstmt, user);
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("A new user was inserted successfully!");
             }
             try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
@@ -133,8 +126,7 @@ public class UserDAO implements BaseDAO{
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(DELETE_REQUEST)) {
             pstmt.setInt(1, id);
-            int rowsDeleted = pstmt.executeUpdate();
-            if (rowsDeleted > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("User was deleted successfully!");
             }
         } catch (SQLException e) {
@@ -147,19 +139,22 @@ public class UserDAO implements BaseDAO{
         User user = (User) bsModel;
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(UPDATE_REQUEST)) {
-            pstmt.setString(1, user.getName());
-            pstmt.setString(2, user.getSurname());
-            pstmt.setString(3, user.getPhoneNumber());
-            pstmt.setString(4, user.getEmail());
-            pstmt.setString(5, user.getPassword());
-            pstmt.setLong(6, user.getAddress().getId());
+            initializePreparedStatement(pstmt, user);
             pstmt.setLong(7, user.getId());
-            int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated > 0) {
+            if (pstmt.executeUpdate() > 0) {
                 logger.trace("User was updated successfully!");
             }
         } catch (SQLException e) {
             logger.error("Database update object error", e);
         }
+    }
+
+    private void initializePreparedStatement(PreparedStatement pstmt, User user) throws SQLException {
+        pstmt.setString(1, user.getName());
+        pstmt.setString(2, user.getSurname());
+        pstmt.setString(3, user.getPhoneNumber());
+        pstmt.setString(4, user.getEmail());
+        pstmt.setString(5, user.getPassword());
+        pstmt.setLong(6, user.getAddress().getId());
     }
 }

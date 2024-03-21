@@ -1,13 +1,6 @@
 package com.vladtam.marketplace.models;
 
-import com.vladtam.marketplace.dao.BaseDAO;
-import com.vladtam.marketplace.dao.CityDAO;
-import com.vladtam.marketplace.views.BaseView;
-import com.vladtam.marketplace.views.CityView;
-
-import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class City implements BaseModel {
     private Integer id;

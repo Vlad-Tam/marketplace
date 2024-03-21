@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class MainView {
     public static void mainMenu(){
         while (true) {
-            System.out.flush();
             System.out.println("MAIN MENU\n1 - Address info\n2 - Advertisement info\n" +
                     "3 - Category info\n4 - City info\n5 - Review info\n6 - User info\n0 - Exit");
             Scanner scan = new Scanner(System.in);
@@ -49,6 +48,9 @@ public class MainView {
                     bsDao = new UserDAO();
                     bsView = new UserView();
                     MainView.actionChoice(bsDao, bsView, scan);
+                    break;
+                default:
+                    System.out.println("Try again");
                     break;
             }
         }

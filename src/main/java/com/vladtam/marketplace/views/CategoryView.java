@@ -1,6 +1,5 @@
 package com.vladtam.marketplace.views;
 
-import com.vladtam.marketplace.dao.BaseDAO;
 import com.vladtam.marketplace.models.BaseModel;
 import com.vladtam.marketplace.models.Category;
 
@@ -38,6 +37,9 @@ public class CategoryView implements BaseView{
                             case 2:
                                 System.out.println("Input description: ");
                                 category.setDescription(scan.nextLine());
+                                break;
+                            default:
+                                System.out.println("Try again");
                                 break;
                         }
                     } else throw new NumberFormatException();
