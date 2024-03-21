@@ -1,5 +1,7 @@
 package com.vladtam.marketplace.views;
 
+import com.vladtam.marketplace.dao.AddressDAO;
+import com.vladtam.marketplace.dao.BaseDAO;
 import com.vladtam.marketplace.models.*;
 
 import java.util.List;
@@ -9,7 +11,7 @@ public class UserView implements BaseView{
     @Override
     public BaseModel createNew(Scanner scan) {
         User user = new User();
-        Address address = new Address();
+        AddressDAO addressDao = new AddressDAO();
         System.out.println("Input name: ");
         user.setName(scan.nextLine());
         System.out.println("Input surname: ");
@@ -21,22 +23,17 @@ public class UserView implements BaseView{
         System.out.println("Input password: ");
         user.setPassword(scan.nextLine());
 
-        List<BaseModel> addressesList = address.getListInfo();
+        List<BaseModel> addressesList = addressDao.getListInfo();
         MainView.outputList(addressesList);
         System.out.println("Select address (1-" + addressesList.size() + ") or create new(0): ");
         int choice = scan.nextInt();
         if(choice == 0){
-            user.setAddress((Address) address.getFullInfo(address.createNew(scan)));
+            AddressView addressView = new AddressView();
+            user.setAddress(addressDao.getFullInfo(addressDao.createNew(addressView.createNew(scan))));
         }else
-            user.setAddress((Address) address.getFullInfo(addressesList.get(choice - 1).getId()));
+            user.setAddress(addressDao.getFullInfo(addressesList.get(choice - 1).getId()));
         scan.nextLine();
         return user;
-    }
-
-    @Override
-    public void outputPage(int id) {
-        BaseModel bsModel = new User();
-        System.out.println(bsModel.getFullInfo(id).outputFullInfo());
     }
 
     @Override
@@ -74,16 +71,17 @@ public class UserView implements BaseView{
                                 user.setPassword(scan.nextLine());
                                 break;
                             case 6:
-                                Address address = new Address();
-                                List<BaseModel> addressesList = address.getListInfo();
+                                AddressDAO addressDao = new AddressDAO();
+                                List<BaseModel> addressesList = addressDao.getListInfo();
                                 MainView.outputList(addressesList);
                                 System.out.println("Select address (1-" + addressesList.size() + ") or create new(0): ");
                                 int addressChoice = scan.nextInt();
                                 scan.nextLine();
                                 if(addressChoice == 0){
-                                    user.setAddress((Address) address.getFullInfo(address.createNew(scan)));
+                                    AddressView addressView = new AddressView();
+                                    user.setAddress(addressDao.getFullInfo(addressDao.createNew(addressView.createNew(scan))));
                                 }else
-                                    user.setAddress((Address) address.getFullInfo(addressesList.get(addressChoice - 1).getId()));
+                                    user.setAddress(addressDao.getFullInfo(addressesList.get(addressChoice - 1).getId()));
                                 break;
                         }
                     } else throw new NumberFormatException();

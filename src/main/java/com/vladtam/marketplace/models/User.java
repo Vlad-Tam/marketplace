@@ -174,39 +174,6 @@ public class User implements BaseModel{
     }
 
     @Override
-    public int createNew(Scanner scan) {
-        BaseDAO userDao = new UserDAO();
-        BaseView userView = new UserView();
-        return userDao.createNew(userView.createNew(scan));
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO userDao = new UserDAO();
-        userDao.delete(id);
-    }
-
-    @Override
-    public void update(BaseModel bsModel, Scanner scan) {
-        BaseDAO userDAO = new UserDAO();
-        BaseView userView = new UserView();
-        BaseModel user = userView.updateModel(bsModel, scan);
-        userDAO.update(user);
-    }
-
-    @Override
-    public List<BaseModel> getListInfo() {
-        BaseDAO userDao = new UserDAO();
-        return userDao.getListInfo();
-    }
-
-    @Override
-    public BaseModel getFullInfo(int id) {
-        BaseDAO userDao = new UserDAO();
-        return userDao.getFullInfo(id);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

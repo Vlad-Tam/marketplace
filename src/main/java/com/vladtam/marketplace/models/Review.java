@@ -88,38 +88,6 @@ public class Review implements BaseModel {
                 "comment = " + comment + "\n";
     }
 
-    @Override
-    public int createNew(Scanner scan) {
-        BaseDAO reviewDao = new ReviewDAO();
-        BaseView reviewView = new ReviewView();
-        return reviewDao.createNew(reviewView.createNew(scan));
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO reviewDao = new ReviewDAO();
-        reviewDao.delete(id);
-    }
-
-    @Override
-    public void update(BaseModel bsModel, Scanner scan) {
-        BaseDAO reviewDao = new ReviewDAO();
-        BaseView reviewView = new ReviewView();
-        BaseModel review = reviewView.updateModel(bsModel, scan);
-        reviewDao.update(review);
-    }
-
-    @Override
-    public List<BaseModel> getListInfo() {
-        BaseDAO reviewDao = new ReviewDAO();
-        return reviewDao.getListInfo();
-    }
-
-    @Override
-    public BaseModel getFullInfo(int id) {
-        BaseDAO reviewDao = new ReviewDAO();
-        return reviewDao.getFullInfo(id);
-    }
 
     @Override
     public boolean equals(Object o) {

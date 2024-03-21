@@ -1,5 +1,7 @@
 package com.vladtam.marketplace.views;
 
+import com.vladtam.marketplace.dao.BaseDAO;
+import com.vladtam.marketplace.dao.CityDAO;
 import com.vladtam.marketplace.models.Address;
 import com.vladtam.marketplace.models.BaseModel;
 import com.vladtam.marketplace.models.City;
@@ -11,15 +13,16 @@ public class AddressView implements BaseView{
     @Override
     public BaseModel createNew(Scanner scan) {
         Address address = new Address();
-        City city = new City();
-        List<BaseModel> citiesList = city.getListInfo();
+        CityDAO cityDao = new CityDAO();
+        List<BaseModel> citiesList = cityDao.getListInfo();
         MainView.outputList(citiesList);
         System.out.println("Select city (1-" + citiesList.size() + ") or create new(0): ");
         int choice = scan.nextInt();
         if(choice == 0){
-            address.setCity((City) city.getFullInfo(city.createNew(scan)));
+            CityView cityView = new CityView();
+            address.setCity(cityDao.getFullInfo(cityDao.createNew(cityView.createNew(scan))));
         }else
-            address.setCity((City) city.getFullInfo(citiesList.get(choice - 1).getId()));
+            address.setCity(cityDao.getFullInfo(citiesList.get(choice - 1).getId()));
         scan.nextLine();
 
         System.out.println("Input street name: ");
@@ -32,11 +35,6 @@ public class AddressView implements BaseView{
         return address;
     }
 
-    @Override
-    public void outputPage(int id) {
-        BaseModel bsModel = new Address();
-        System.out.println(bsModel.getFullInfo(id).outputFullInfo());
-    }
 
     @Override
     public BaseModel updateModel(BaseModel bsModel, Scanner scan) {
@@ -52,16 +50,17 @@ public class AddressView implements BaseView{
                     if (index >= 1 && index <= 4) {
                         switch (index) {
                             case 1:
-                                City city = new City();
-                                List<BaseModel> citiesList = city.getListInfo();
+                                CityDAO cityDao = new CityDAO();
+                                List<BaseModel> citiesList = cityDao.getListInfo();
                                 MainView.outputList(citiesList);
                                 System.out.println("Select city (1-" + citiesList.size() + ") or create new(0): ");
                                 int cityChoice = scan.nextInt();
                                 scan.nextLine();
                                 if(cityChoice == 0){
-                                    address.setCity((City) city.getFullInfo(city.createNew(scan)));
+                                    CityView cityView = new CityView();
+                                    address.setCity(cityDao.getFullInfo(cityDao.createNew(cityView.createNew(scan))));
                                 }else
-                                    address.setCity((City) city.getFullInfo(citiesList.get(cityChoice - 1).getId()));
+                                    address.setCity(cityDao.getFullInfo(citiesList.get(cityChoice - 1).getId()));
                                 break;
                             case 2:
                                 System.out.println("Input street name: ");

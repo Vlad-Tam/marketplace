@@ -58,38 +58,6 @@ public class Category implements BaseModel{
                 "description = " + description + "\n";
     }
 
-    @Override
-    public int createNew(Scanner scan) {
-        BaseDAO categoryDao = new CategoryDAO();
-        BaseView categoryView = new CategoryView();
-        return categoryDao.createNew(categoryView.createNew(scan));
-    }
-
-    @Override
-    public List<BaseModel> getListInfo() {
-        CategoryDAO categoryDao = new CategoryDAO();
-        return categoryDao.getListInfo();
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO categoryDao = new CategoryDAO();
-        categoryDao.delete(id);
-    }
-
-    @Override
-    public void update(BaseModel bsModel, Scanner scan) {
-        BaseDAO categoryDao = new CategoryDAO();
-        BaseView categoryView = new CategoryView();
-        BaseModel cathegory = categoryView.updateModel(bsModel, scan);
-        categoryDao.update(cathegory);
-    }
-
-    @Override
-    public BaseModel getFullInfo(int id) {
-        BaseDAO categoryDao = new CategoryDAO();
-        return categoryDao.getFullInfo(id);
-    }
 
     @Override
     public boolean equals(Object o) {

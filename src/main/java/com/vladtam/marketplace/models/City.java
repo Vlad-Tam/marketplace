@@ -59,38 +59,6 @@ public class City implements BaseModel {
                 "region = " + region + "\n";
     }
 
-    @Override
-    public int createNew(Scanner scan) {
-        BaseDAO cityDao = new CityDAO();
-        BaseView cityView = new CityView();
-        return cityDao.createNew(cityView.createNew(scan));
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO cityDao = new CityDAO();
-        cityDao.delete(id);
-    }
-
-    @Override
-    public void update(BaseModel bsModel, Scanner scan) {
-        BaseDAO cityDao = new CityDAO();
-        BaseView cityView = new CityView();
-        BaseModel city = cityView.updateModel(bsModel, scan);
-        cityDao.update(city);
-    }
-
-    @Override
-    public List<BaseModel> getListInfo() {
-        BaseDAO cityDao = new CityDAO();
-        return cityDao.getListInfo();
-    }
-
-    @Override
-    public BaseModel getFullInfo(int id) {
-        BaseDAO cityDao = new CityDAO();
-        return cityDao.getFullInfo(id);
-    }
 
     @Override
     public boolean equals(Object o) {

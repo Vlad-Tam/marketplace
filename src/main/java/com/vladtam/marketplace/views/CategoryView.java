@@ -1,5 +1,6 @@
 package com.vladtam.marketplace.views;
 
+import com.vladtam.marketplace.dao.BaseDAO;
 import com.vladtam.marketplace.models.BaseModel;
 import com.vladtam.marketplace.models.Category;
 
@@ -16,11 +17,6 @@ public class CategoryView implements BaseView{
         return category;
     }
 
-    @Override
-    public void outputPage(int id) {
-        BaseModel bsModel = new Category();
-        System.out.println(bsModel.getFullInfo(id).outputFullInfo());
-    }
 
     @Override
     public BaseModel updateModel(BaseModel bsModel, Scanner scan) {

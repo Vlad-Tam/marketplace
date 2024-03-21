@@ -1,5 +1,7 @@
 package com.vladtam.marketplace.views;
 
+import com.vladtam.marketplace.dao.BaseDAO;
+import com.vladtam.marketplace.dao.CityDAO;
 import com.vladtam.marketplace.models.BaseModel;
 import com.vladtam.marketplace.models.City;
 
@@ -16,11 +18,6 @@ public class CityView implements BaseView{
         return city;
     }
 
-    @Override
-    public void outputPage(int id) {
-        BaseModel bsModel = new City();
-        System.out.println(bsModel.getFullInfo(id).outputFullInfo());
-    }
 
     @Override
     public BaseModel updateModel(BaseModel bsModel, Scanner scan) {

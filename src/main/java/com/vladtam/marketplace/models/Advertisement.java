@@ -117,38 +117,6 @@ public class Advertisement implements BaseModel{
                 "user = (" + vendor + ")\n";
     }
 
-    @Override
-    public int createNew(Scanner scan) {
-        BaseDAO advertisementDao = new AdvertisementDAO();
-        BaseView advertisementView = new AdvertisementView();
-        return advertisementDao.createNew(advertisementView.createNew(scan));
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO advertisementDao = new AdvertisementDAO();
-        advertisementDao.delete(id);
-    }
-
-    @Override
-    public void update(BaseModel bsModel, Scanner scan) {
-        BaseDAO advertisementDao = new AdvertisementDAO();
-        BaseView advertisementView = new AdvertisementView();
-        BaseModel advertisement = advertisementView.updateModel(bsModel, scan);
-        advertisementDao.update(advertisement);
-    }
-
-    @Override
-    public List<BaseModel> getListInfo() {
-        BaseDAO advertisementDao = new AdvertisementDAO();
-        return advertisementDao.getListInfo();
-    }
-
-    @Override
-    public BaseModel getFullInfo(int id) {
-        BaseDAO advertisementDao = new AdvertisementDAO();
-        return advertisementDao.getFullInfo(id);
-    }
 
     @Override
     public boolean equals(Object o) {

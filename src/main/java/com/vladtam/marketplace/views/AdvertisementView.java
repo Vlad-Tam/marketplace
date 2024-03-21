@@ -1,5 +1,8 @@
 package com.vladtam.marketplace.views;
 
+import com.vladtam.marketplace.dao.BaseDAO;
+import com.vladtam.marketplace.dao.CategoryDAO;
+import com.vladtam.marketplace.dao.UserDAO;
 import com.vladtam.marketplace.models.*;
 
 import java.util.List;
@@ -9,8 +12,8 @@ public class AdvertisementView implements BaseView{
     @Override
     public BaseModel createNew(Scanner scan) {
         Advertisement advertisement = new Advertisement();
-        Category category = new Category();
-        User user = new User();
+        CategoryDAO categoryDao = new CategoryDAO();
+        UserDAO userDao = new UserDAO();
 
         System.out.println("Input name: ");
         advertisement.setName(scan.nextLine());
@@ -20,25 +23,20 @@ public class AdvertisementView implements BaseView{
         advertisement.setPrice(scan.nextDouble());
         advertisement.setSaleStatus(false);
 
-        List<BaseModel> categoriesList = category.getListInfo();
+        List<BaseModel> categoriesList = categoryDao.getListInfo();
         MainView.outputList(categoriesList);
         System.out.println("Select category (1-" + categoriesList.size() + "): ");
-        advertisement.setCategory((Category) category.getFullInfo(scan.nextInt()));
+        advertisement.setCategory(categoryDao.getFullInfo(scan.nextInt()));
 
-        List<BaseModel> usersList = user.getListInfo();
+        List<BaseModel> usersList = userDao.getListInfo();
         MainView.outputList(usersList);
         System.out.println("Select vendor (1-" + usersList.size() + "): ");
-        advertisement.setVendor((User) user.getFullInfo(scan.nextInt()));
+        advertisement.setVendor(userDao.getFullInfo(scan.nextInt()));
         scan.nextLine();
 
         return advertisement;
     }
 
-    @Override
-    public void outputPage(int id) {
-        BaseModel bsModel = new Advertisement();
-        System.out.println(bsModel.getFullInfo(id).outputFullInfo());
-    }
 
     @Override
     public BaseModel updateModel(BaseModel bsModel, Scanner scan) {
@@ -68,28 +66,30 @@ public class AdvertisementView implements BaseView{
                                 scan.nextLine();
                                 break;
                             case 4:
-                                Category category = new Category();
-                                List<BaseModel> categoriesList = category.getListInfo();
+                                CategoryDAO categoryDao = new CategoryDAO();
+                                List<BaseModel> categoriesList = categoryDao.getListInfo();
                                 MainView.outputList(categoriesList);
                                 System.out.println("Select category (1-" + categoriesList.size() + ") or create new(0): ");
                                 int categoryChoice = scan.nextInt();
                                 scan.nextLine();
                                 if(categoryChoice == 0){
-                                    advertisement.setCategory((Category) category.getFullInfo(category.createNew(scan)));
+                                    CategoryView categoryView = new CategoryView();
+                                    advertisement.setCategory(categoryDao.getFullInfo(categoryDao.createNew(categoryView.createNew(scan))));
                                 }else
-                                    advertisement.setCategory((Category) category.getFullInfo(categoriesList.get(categoryChoice - 1).getId()));
+                                    advertisement.setCategory(categoryDao.getFullInfo(categoriesList.get(categoryChoice - 1).getId()));
                                 break;
                             case 5:
-                                User user = new User();
-                                List<BaseModel> usersList = user.getListInfo();
+                                UserDAO userDao = new UserDAO();
+                                List<BaseModel> usersList = userDao.getListInfo();
                                 MainView.outputList(usersList);
                                 System.out.println("Select vendor (1-" + usersList.size() + ") or create new(0): ");
                                 int vendorChoice = scan.nextInt();
                                 scan.nextLine();
                                 if(vendorChoice == 0){
-                                    advertisement.setVendor((User) user.getFullInfo(user.createNew(scan)));
+                                    UserView userView = new UserView();
+                                    advertisement.setVendor((User) userDao.getFullInfo(userDao.createNew(userView.createNew(scan))));
                                 }else
-                                    advertisement.setVendor((User) user.getFullInfo(usersList.get(vendorChoice - 1).getId()));
+                                    advertisement.setVendor((User) userDao.getFullInfo(usersList.get(vendorChoice - 1).getId()));
                                 break;
                         }
                     } else throw new NumberFormatException();

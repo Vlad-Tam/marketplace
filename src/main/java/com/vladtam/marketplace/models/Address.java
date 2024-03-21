@@ -83,38 +83,6 @@ public class Address implements BaseModel{
                 "flatNumber = " + flatNumber + "\n";
     }
 
-    @Override
-    public int createNew(Scanner scan) {
-        BaseDAO addressDao = new AddressDAO();
-        BaseView addressView = new AddressView();
-        return addressDao.createNew(addressView.createNew(scan));
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO addressDao = new AddressDAO();
-        addressDao.delete(id);
-    }
-
-    @Override
-    public void update(BaseModel bsModel, Scanner scan) {
-        BaseDAO addressDao = new AddressDAO();
-        BaseView addressView = new AddressView();
-        BaseModel address = addressView.updateModel(bsModel, scan);
-        addressDao.update(address);
-    }
-
-    @Override
-    public List<BaseModel> getListInfo() {
-        BaseDAO addressDao = new AddressDAO();
-        return addressDao.getListInfo();
-    }
-
-    @Override
-    public BaseModel getFullInfo(int id) {
-        BaseDAO addressDao = new AddressDAO();
-        return addressDao.getFullInfo(id);
-    }
 
     @Override
     public boolean equals(Object o) {
