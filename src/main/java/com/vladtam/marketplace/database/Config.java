@@ -1,11 +1,15 @@
 package com.vladtam.marketplace.database;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
     private static final Properties properties = new Properties();
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseHandler.class);
 
     static {
         try (InputStream input = DatabaseHandler.class.getClassLoader().getResourceAsStream("database.properties")) {
@@ -13,8 +17,8 @@ public class Config {
                 throw new IOException("Unable to find database.properties");
             }
             properties.load(input);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            logger.error("Database configure error", e);
         }
     }
 
