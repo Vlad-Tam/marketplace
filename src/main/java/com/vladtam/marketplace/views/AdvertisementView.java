@@ -36,7 +36,6 @@ public class AdvertisementView implements BaseView{
         return advertisement;
     }
 
-
     @Override
     public BaseModel updateModel(BaseModel bsModel, Scanner scan) {
         Advertisement advertisement = (Advertisement) bsModel;

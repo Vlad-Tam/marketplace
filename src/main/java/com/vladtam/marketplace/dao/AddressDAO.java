@@ -2,7 +2,6 @@ package com.vladtam.marketplace.dao;
 
 import com.vladtam.marketplace.database.DatabaseHandler;
 import com.vladtam.marketplace.models.Address;
-import com.vladtam.marketplace.models.Advertisement;
 import com.vladtam.marketplace.models.BaseModel;
 import com.vladtam.marketplace.models.City;
 import org.slf4j.Logger;

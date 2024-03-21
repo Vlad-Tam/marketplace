@@ -1,6 +1,5 @@
 package com.vladtam.marketplace.views;
 
-import com.vladtam.marketplace.dao.BaseDAO;
 import com.vladtam.marketplace.models.BaseModel;
 
 import java.util.Scanner;

@@ -76,7 +76,6 @@ public class Address implements BaseModel{
                 "flatNumber = " + flatNumber + "\n";
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

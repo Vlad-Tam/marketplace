@@ -16,7 +16,6 @@ public class CategoryView implements BaseView{
         return category;
     }
 
-
     @Override
     public BaseModel updateModel(BaseModel bsModel, Scanner scan) {
         Category category = (Category) bsModel;

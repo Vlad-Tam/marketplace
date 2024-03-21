@@ -82,7 +82,6 @@ public class Review implements BaseModel {
                 "comment = " + comment + "\n";
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -4,7 +4,6 @@ import com.vladtam.marketplace.dao.CityDAO;
 import com.vladtam.marketplace.models.Address;
 import com.vladtam.marketplace.models.BaseModel;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,7 +32,6 @@ public class AddressView implements BaseView{
         scan.nextLine();
         return address;
     }
-
 
     @Override
     public BaseModel updateModel(BaseModel bsModel, Scanner scan) {

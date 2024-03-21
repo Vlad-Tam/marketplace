@@ -52,7 +52,6 @@ public class City implements BaseModel {
                 "region = " + region + "\n";
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -3,7 +3,6 @@ package com.vladtam.marketplace.dao;
 import com.vladtam.marketplace.database.DatabaseHandler;
 import com.vladtam.marketplace.models.BaseModel;
 import com.vladtam.marketplace.models.Category;
-import com.vladtam.marketplace.models.City;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

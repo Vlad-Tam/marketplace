@@ -16,7 +16,6 @@ public class CityView implements BaseView{
         return city;
     }
 
-
     @Override
     public BaseModel updateModel(BaseModel bsModel, Scanner scan) {
         City city = (City) bsModel;
