@@ -66,7 +66,7 @@ public class MainView {
         }
     }
 
-    public static void actionChoice(BaseDAOInterface bsDao, BaseViewInterface bsView, Scanner scan){
+    public static void actionChoice(BaseDAOInterface bsDao, BaseViewInterface bsView, Scanner scan) {
         while (true) {
             List<BaseModelInterface> modelList = bsDao.getListInfo();
             MainView.outputList(modelList);
@@ -77,29 +77,38 @@ public class MainView {
             } else if (input.equalsIgnoreCase("C")) {
                 bsDao.createNew(bsView.createNew(scan));
             } else {
-                try {
-                    int index = Integer.parseInt(input);
-                    if (index >= 1 && index <= modelList.size()) {
-                        int modelId = modelList.get(index - 1).getId();
-                        while(true) {
-                            if (logger.isTraceEnabled()) {
-                                logger.trace("{}\n'U'pdate\n'D'elete\n'R'eturn\n", bsDao.getFullInfo(modelId).outputFullInfo());
-                            }
-                            String inputAction = scan.nextLine();
-                            if (inputAction.equalsIgnoreCase("R")) {
-                                return;
-                            } else if (inputAction.equalsIgnoreCase("D")) {
-                                bsDao.delete(modelId);
-                                return;
-                            } else if (inputAction.equalsIgnoreCase("U")) {
-                                bsDao.update(bsView.updateModel(bsDao.getFullInfo(modelList.get(index - 1).getId()), scan));
-                            } else
-                                return;
-                        }
-                    } else throw new NumberFormatException();
-                } catch (NumberFormatException e) {
-                    logger.trace("Try again");
-                }
+                handleAction(input, modelList, bsDao, bsView, scan);
+            }
+        }
+    }
+
+    private static void handleAction(String input, List<BaseModelInterface> modelList, BaseDAOInterface bsDao, BaseViewInterface bsView, Scanner scan) {
+        try {
+            int index = Integer.parseInt(input);
+            if (index >= 1 && index <= modelList.size()) {
+                int modelId = modelList.get(index - 1).getId();
+                handleModelAction(modelId, bsDao, bsView, scan);
+            } else throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            logger.trace("Try again");
+        }
+    }
+
+    private static void handleModelAction(int modelId, BaseDAOInterface bsDao, BaseViewInterface bsView, Scanner scan) {
+        while (true) {
+            if (logger.isTraceEnabled()) {
+                logger.trace("{}\n'U'pdate\n'D'elete\n'R'eturn\n", bsDao.getFullInfo(modelId).outputFullInfo());
+            }
+            String inputAction = scan.nextLine();
+            if (inputAction.equalsIgnoreCase("R")) {
+                return;
+            } else if (inputAction.equalsIgnoreCase("D")) {
+                bsDao.delete(modelId);
+                return;
+            } else if (inputAction.equalsIgnoreCase("U")) {
+                bsDao.update(bsView.updateModel(bsDao.getFullInfo(modelId), scan));
+            } else {
+                return;
             }
         }
     }

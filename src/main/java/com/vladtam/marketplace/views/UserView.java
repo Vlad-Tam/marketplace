@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class UserView implements BaseViewInterface {
     public static final Logger logger = LoggerFactory.getLogger(UserView.class);
@@ -48,52 +49,60 @@ public class UserView implements BaseViewInterface {
             if (choice.equalsIgnoreCase("R")) {
                 return user;
             } else {
-                try {
-                    int index = Integer.parseInt(choice);
-                    if (index >= 1 && index <= 6) {
-                        switch (index) {
-                            case 1:
-                                logger.trace("Input name: ");
-                                user.getBasicInfo().setName(scan.nextLine());
-                                break;
-                            case 2:
-                                logger.trace("Input surname: ");
-                                user.getBasicInfo().setSurname(scan.nextLine());
-                                break;
-                            case 3:
-                                logger.trace("Input email: ");
-                                user.getBasicInfo().setEmail(scan.nextLine());
-                                break;
-                            case 4:
-                                logger.trace("Input phone number: ");
-                                user.getBasicInfo().setPhoneNumber(scan.nextLine());
-                                break;
-                            case 5:
-                                logger.trace("Input password: ");
-                                user.getBasicInfo().setPassword(scan.nextLine());
-                                break;
-                            case 6:
-                                AddressDAO addressDao = new AddressDAO();
-                                List<BaseModelInterface> addressesList = addressDao.getListInfo();
-                                MainView.outputList(addressesList);
-                                logger.trace("Select address (1-{}) or create new(0): ", addressesList.size());
-                                int addressChoice = scan.nextInt();
-                                scan.nextLine();
-                                if(addressChoice == 0){
-                                    AddressView addressView = new AddressView();
-                                    user.setAddress(addressDao.getFullInfo(addressDao.createNew(addressView.createNew(scan))));
-                                }else
-                                    user.setAddress(addressDao.getFullInfo(addressesList.get(addressChoice - 1).getId()));
-                                break;
-                            default:
-                                logger.trace("Try again");
-                                break;
-                        }
-                    } else throw new NumberFormatException();
-                } catch (NumberFormatException e) {
-                    logger.trace("Try again");
-                }
+                handleUpdateChoice(choice, user, scan);
             }
         }
+    }
+
+    private void handleUpdateChoice(String choice, User user, Scanner scan) {
+        try {
+            int index = Integer.parseInt(choice);
+            if (index >= 1 && index <= 6) {
+                switch (index) {
+                    case 1:
+                        updateUserField("Input name: ", user.getBasicInfo()::setName, scan);
+                        break;
+                    case 2:
+                        updateUserField("Input surname: ", user.getBasicInfo()::setSurname, scan);
+                        break;
+                    case 3:
+                        updateUserField("Input email: ", user.getBasicInfo()::setEmail, scan);
+                        break;
+                    case 4:
+                        updateUserField("Input phone number: ", user.getBasicInfo()::setPhoneNumber, scan);
+                        break;
+                    case 5:
+                        updateUserField("Input password: ", user.getBasicInfo()::setPassword, scan);
+                        break;
+                    case 6:
+                        updateAddress(user, scan);
+                        break;
+                    default:
+                        logger.trace("Try again");
+                        break;
+                }
+            } else throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            logger.trace("Try again");
+        }
+    }
+
+    private void updateUserField(String message, Consumer<String> fieldSetter, Scanner scan) {
+        logger.trace(message);
+        fieldSetter.accept(scan.nextLine());
+    }
+
+    private void updateAddress(User user, Scanner scan) {
+        AddressDAO addressDao = new AddressDAO();
+        List<BaseModelInterface> addressesList = addressDao.getListInfo();
+        MainView.outputList(addressesList);
+        logger.trace("Select address (1-{}) or create new(0): ", addressesList.size());
+        int addressChoice = scan.nextInt();
+        scan.nextLine();
+        if(addressChoice == 0){
+            AddressView addressView = new AddressView();
+            user.setAddress(addressDao.getFullInfo(addressDao.createNew(addressView.createNew(scan))));
+        }else
+            user.setAddress(addressDao.getFullInfo(addressesList.get(addressChoice - 1).getId()));
     }
 }

@@ -45,41 +45,17 @@ public class UserDAO implements BaseDAOInterface {
     private static final String USER_NAME = "User";
 
     public User getFullInfo(int userId) {
-        Set<Advertisement> salesList = new HashSet<>();
-        Set<Advertisement> wishList = new HashSet<>();
-        Set<Review> commentsList = new HashSet<>();
-
         try (Connection conn = dbHandler.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(GET_FULL_INFO_REQUEST)){
+             PreparedStatement pstmt = conn.prepareStatement(GET_FULL_INFO_REQUEST)) {
             pstmt.setInt(1, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    City city = new City(rs.getInt("id_city"), rs.getString("city_name"), rs.getString("region"));
-                    Address address = new Address(rs.getInt("id_address"), city, rs.getString("street"), rs.getInt("house_number"), rs.getInt("flat_number"));
-                    BasicUserInfo basicUserInfo = new BasicUserInfo(rs.getString(NAME_COLUMN),  rs.getString(SURNAME_COLUMN),
-                            rs.getString(PHONE_NUMBER_COLUMN), rs.getString(EMAIL_COLUMN), rs.getString(PASSWORD_COLUMN));
-                    User user = new User(rs.getInt(ID_COLUMN), basicUserInfo,
-                            rs.getDate(REGISTRATION_DATE_COLUMN), address, salesList, wishList, commentsList);
-
+                    User user = createUser(rs);
                     do {
-                        int advertisementId = rs.getObject("advertisement_id") != null ? rs.getInt("advertisement_id") : 0;
-                        if (advertisementId != 0) {
-                            salesList.add(new Advertisement(advertisementId, rs.getString("advertisement_name"), rs.getString("advertisement_description"), rs.getDouble("advertisement_price"), rs.getBoolean("advertisement_status")));
-                        }
-
-                        int wishListAdvertisementId = rs.getObject("wish_list_advertisement_id") != null ? rs.getInt("wish_list_advertisement_id") : 0;
-                        if (wishListAdvertisementId != 0) {
-                            wishList.add(new Advertisement(wishListAdvertisementId, rs.getString("wished_advertisement_name"), rs.getDouble("wished_advertisement_price")));
-                        }
-
-                        int reviewId = rs.getObject("review_id") != null ? rs.getInt("review_id") : 0;
-                        if (reviewId != 0) {
-                            User sender = new User(rs.getInt("review_sender_id"), rs.getString("sender_name"), rs.getString("sender_surname"));
-                            User receiver = new User(userId, rs.getString(NAME_COLUMN), rs.getString(SURNAME_COLUMN));
-                            commentsList.add(new Review(reviewId, receiver, sender, rs.getByte("review_rating"), rs.getString("review_comment")));
-                        }
+                        addAdvertisement(rs, user.getSalesList());
+                        addWishListAdvertisement(rs, user.getWishList());
+                        addReview(userId, rs, user.getCommentsList());
                     } while (rs.next());
-
                     return user;
                 }
             }
@@ -87,6 +63,38 @@ public class UserDAO implements BaseDAOInterface {
             logger.error("Database read error", e);
         }
         return null;
+    }
+
+    private User createUser(ResultSet rs) throws SQLException {
+        City city = new City(rs.getInt("id_city"), rs.getString("city_name"), rs.getString("region"));
+        Address address = new Address(rs.getInt("id_address"), city, rs.getString("street"), rs.getInt("house_number"), rs.getInt("flat_number"));
+        BasicUserInfo basicUserInfo = new BasicUserInfo(rs.getString(NAME_COLUMN),  rs.getString(SURNAME_COLUMN),
+                rs.getString(PHONE_NUMBER_COLUMN), rs.getString(EMAIL_COLUMN), rs.getString(PASSWORD_COLUMN));
+        return new User(rs.getInt(ID_COLUMN), basicUserInfo,
+                rs.getDate(REGISTRATION_DATE_COLUMN), address, new HashSet<>(), new HashSet<>(), new HashSet<>());
+    }
+
+    private void addAdvertisement(ResultSet rs, Set<Advertisement> salesList) throws SQLException {
+        int advertisementId = rs.getObject("advertisement_id") != null ? rs.getInt("advertisement_id") : 0;
+        if (advertisementId != 0) {
+            salesList.add(new Advertisement(advertisementId, rs.getString("advertisement_name"), rs.getString("advertisement_description"), rs.getDouble("advertisement_price"), rs.getBoolean("advertisement_status")));
+        }
+    }
+
+    private void addWishListAdvertisement(ResultSet rs, Set<Advertisement> wishList) throws SQLException {
+        int wishListAdvertisementId = rs.getObject("wish_list_advertisement_id") != null ? rs.getInt("wish_list_advertisement_id") : 0;
+        if (wishListAdvertisementId != 0) {
+            wishList.add(new Advertisement(wishListAdvertisementId, rs.getString("wished_advertisement_name"), rs.getDouble("wished_advertisement_price")));
+        }
+    }
+
+    private void addReview(int userId, ResultSet rs, Set<Review> commentsList) throws SQLException {
+        int reviewId = rs.getObject("review_id") != null ? rs.getInt("review_id") : 0;
+        if (reviewId != 0) {
+            User sender = new User(rs.getInt("review_sender_id"), rs.getString("sender_name"), rs.getString("sender_surname"));
+            User receiver = new User(userId, rs.getString(NAME_COLUMN), rs.getString(SURNAME_COLUMN));
+            commentsList.add(new Review(reviewId, receiver, sender, rs.getByte("review_rating"), rs.getString("review_comment")));
+        }
     }
 
     public List<BaseModelInterface> getListInfo(){

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class CategoryView implements BaseViewInterface {
     public static final Logger logger = LoggerFactory.getLogger(CategoryView.class);
@@ -29,27 +30,35 @@ public class CategoryView implements BaseViewInterface {
             if (choice.equalsIgnoreCase("R")) {
                 return category;
             } else {
-                try {
-                    int index = Integer.parseInt(choice);
-                    if (index >= 1 && index <= 2) {
-                        switch (index) {
-                            case 1:
-                                logger.trace("Input category name: ");
-                                category.setName(scan.nextLine());
-                                break;
-                            case 2:
-                                logger.trace("Input category description: ");
-                                category.setDescription(scan.nextLine());
-                                break;
-                            default:
-                                logger.trace("Try again");
-                                break;
-                        }
-                    } else throw new NumberFormatException();
-                } catch (NumberFormatException e) {
-                    logger.trace("Try again");
-                }
+                handleUpdateChoice(choice, category, scan);
             }
         }
     }
+
+    private void handleUpdateChoice(String choice, Category category, Scanner scan) {
+        try {
+            int index = Integer.parseInt(choice);
+            if (index >= 1 && index <= 2) {
+                switch (index) {
+                    case 1:
+                        updateCategoryField("Input category name: ", category::setName, scan);
+                        break;
+                    case 2:
+                        updateCategoryField("Input category description: ", category::setDescription, scan);
+                        break;
+                    default:
+                        logger.trace("Try again");
+                        break;
+                }
+            } else throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            logger.trace("Try again");
+        }
+    }
+
+    private void updateCategoryField(String message, Consumer<String> fieldSetter, Scanner scan) {
+        logger.trace(message);
+        fieldSetter.accept(scan.nextLine());
+    }
+
 }

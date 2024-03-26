@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class AddressView implements BaseViewInterface {
     public static final Logger logger = LoggerFactory.getLogger(AddressView.class);
@@ -46,46 +47,61 @@ public class AddressView implements BaseViewInterface {
             if (choice.equalsIgnoreCase("R")) {
                 return address;
             } else {
-                try {
-                    int index = Integer.parseInt(choice);
-                    if (index >= 1 && index <= 4) {
-                        switch (index) {
-                            case 1:
-                                CityDAO cityDao = new CityDAO();
-                                List<BaseModelInterface> citiesList = cityDao.getListInfo();
-                                MainView.outputList(citiesList);
-                                logger.trace("Select city (1-{}) or create new(0): ", citiesList.size());
-                                int cityChoice = scan.nextInt();
-                                scan.nextLine();
-                                if(cityChoice == 0){
-                                    CityView cityView = new CityView();
-                                    address.setCity(cityDao.getFullInfo(cityDao.createNew(cityView.createNew(scan))));
-                                }else
-                                    address.setCity(cityDao.getFullInfo(citiesList.get(cityChoice - 1).getId()));
-                                break;
-                            case 2:
-                                logger.trace("Input street name: ");
-                                address.setStreet(scan.nextLine());
-                                break;
-                            case 3:
-                                logger.trace("Input house number: ");
-                                address.setHouseNumber(scan.nextInt());
-                                scan.nextLine();
-                                break;
-                            case 4:
-                                logger.trace("Input flat number: ");
-                                address.setFlatNumber(scan.nextInt());
-                                scan.nextLine();
-                                break;
-                            default:
-                                logger.trace("Try again");
-                                break;
-                        }
-                    } else throw new NumberFormatException();
-                } catch (NumberFormatException e) {
-                    logger.trace("Try again");
-                }
+                handleUpdateChoice(choice, address, scan);
             }
         }
     }
+
+    private void handleUpdateChoice(String choice, Address address, Scanner scan) {
+        try {
+            int index = Integer.parseInt(choice);
+            if (index >= 1 && index <= 4) {
+                switch (index) {
+                    case 1:
+                        updateCity(address, scan);
+                        break;
+                    case 2:
+                        updateAddressField("Input street name: ", address::setStreet, scan);
+                        break;
+                    case 3:
+                        updateAddressNumber("Input house number: ", address::setHouseNumber, scan);
+                        break;
+                    case 4:
+                        updateAddressNumber("Input flat number: ", address::setFlatNumber, scan);
+                        break;
+                    default:
+                        logger.trace("Try again");
+                        break;
+                }
+            } else throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            logger.trace("Try again");
+        }
+    }
+
+    private void updateCity(Address address, Scanner scan) {
+        CityDAO cityDao = new CityDAO();
+        List<BaseModelInterface> citiesList = cityDao.getListInfo();
+        MainView.outputList(citiesList);
+        logger.trace("Select city (1-{}) or create new(0): ", citiesList.size());
+        int cityChoice = scan.nextInt();
+        scan.nextLine();
+        if(cityChoice == 0){
+            CityView cityView = new CityView();
+            address.setCity(cityDao.getFullInfo(cityDao.createNew(cityView.createNew(scan))));
+        }else
+            address.setCity(cityDao.getFullInfo(citiesList.get(cityChoice - 1).getId()));
+    }
+
+    private void updateAddressField(String message, Consumer<String> fieldSetter, Scanner scan) {
+        logger.trace(message);
+        fieldSetter.accept(scan.nextLine());
+    }
+
+    private void updateAddressNumber(String message, Consumer<Integer> fieldSetter, Scanner scan) {
+        logger.trace(message);
+        fieldSetter.accept(scan.nextInt());
+        scan.nextLine();
+    }
+
 }

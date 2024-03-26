@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class CityView implements BaseViewInterface {
     public static final Logger logger = LoggerFactory.getLogger(CityView.class);
@@ -29,27 +30,35 @@ public class CityView implements BaseViewInterface {
             if (choice.equalsIgnoreCase("R")) {
                 return city;
             } else {
-                try {
-                    int index = Integer.parseInt(choice);
-                    if (index >= 1 && index <= 2) {
-                        switch (index) {
-                            case 1:
-                                logger.trace("Input city name: ");
-                                city.setName(scan.nextLine());
-                                break;
-                            case 2:
-                                logger.trace("Input region: ");
-                                city.setRegion(scan.nextLine());
-                                break;
-                            default:
-                                logger.trace("Try again");
-                                break;
-                        }
-                    } else throw new NumberFormatException();
-                } catch (NumberFormatException e) {
-                    logger.trace("Try again");
-                }
+                handleUpdateChoice(choice, city, scan);
             }
         }
     }
+
+    private void handleUpdateChoice(String choice, City city, Scanner scan) {
+        try {
+            int index = Integer.parseInt(choice);
+            if (index >= 1 && index <= 2) {
+                switch (index) {
+                    case 1:
+                        updateCityField("Input city name: ", city::setName, scan);
+                        break;
+                    case 2:
+                        updateCityField("Input region: ", city::setRegion, scan);
+                        break;
+                    default:
+                        logger.trace("Try again");
+                        break;
+                }
+            } else throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            logger.trace("Try again");
+        }
+    }
+
+    private void updateCityField(String message, Consumer<String> fieldSetter, Scanner scan) {
+        logger.trace(message);
+        fieldSetter.accept(scan.nextLine());
+    }
+
 }
