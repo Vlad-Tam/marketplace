@@ -82,7 +82,9 @@ public class MainView {
                     if (index >= 1 && index <= modelList.size()) {
                         int modelId = modelList.get(index - 1).getId();
                         while(true) {
-                            logger.trace("{}\n'U'pdate\n'D'elete\n'R'eturn\n", bsDao.getFullInfo(modelId).outputFullInfo());
+                            if (logger.isTraceEnabled()) {
+                                logger.trace("{}\n'U'pdate\n'D'elete\n'R'eturn\n", bsDao.getFullInfo(modelId).outputFullInfo());
+                            }
                             String inputAction = scan.nextLine();
                             if (inputAction.equalsIgnoreCase("R")) {
                                 return;
