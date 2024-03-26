@@ -7,11 +7,11 @@
 - Желательно использовать PostgreSQL
 - Схему и скрипт добавить в гит
 
-#### <a href="https://github.com/Vlad-Tam/marketplace/tree/task1">Результаты работы:</a>
+#### <a href="https://github.com/Vlad-Tam/marketplace/tree/main/task1">Результаты работы:</a>
 - Ориентировочное время выполнения: 4 часа.
 - Фактическое время выполнения: 5 часов.
-- <a href="https://github.com/Vlad-Tam/marketplace/blob/task1/marketplace.png">Cхема</a>
-- <a href="https://github.com/Vlad-Tam/marketplace/blob/task1/creating_script.sql">Скрипт создания таблиц</a>
+- <a href="https://github.com/Vlad-Tam/marketplace/tree/main/task1/marketplace.png">Cхема</a>
+- <a href="https://github.com/Vlad-Tam/marketplace/tree/main/task1/creating_script.sql">Скрипт создания таблиц</a>
 
   
 ### Задание 2
