@@ -60,23 +60,11 @@ public class CityDAO implements BaseDAOInterface {
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
             initializePreparedStatement(pstmt, city);
-            if (pstmt.executeUpdate() > 0) {
-                logger.trace("A new city was inserted successfully!");
-            }
-            try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                }
-            }
+            return BaseDAO.getGeneratedKey(pstmt, CITY_NAME);
         } catch (SQLException e) {
             logger.error("Database create object error", e);
         }
         return -1;
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO.delete(id, DELETE_REQUEST, CITY_NAME);
     }
 
     @Override
@@ -97,5 +85,10 @@ public class CityDAO implements BaseDAOInterface {
     private void initializePreparedStatement(PreparedStatement pstmt, City city) throws SQLException {
         pstmt.setString(1, city.getName());
         pstmt.setString(2, city.getRegion());
+    }
+
+    @Override
+    public void delete(int id) {
+        BaseDAO.delete(id, DELETE_REQUEST, CITY_NAME);
     }
 }

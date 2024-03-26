@@ -83,23 +83,11 @@ public class ReviewDAO implements BaseDAOInterface {
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
             initializePreparedStatement(pstmt, review);
-            if (pstmt.executeUpdate() > 0) {
-                logger.trace("A new review was inserted successfully!");
-            }
-            try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                }
-            }
+            return BaseDAO.getGeneratedKey(pstmt, REVIEW_NAME);
         } catch (SQLException e) {
             logger.error("Database create object error", e);
         }
         return -1;
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO.delete(id, DELETE_REQUEST, REVIEW_NAME);
     }
 
     @Override
@@ -122,5 +110,10 @@ public class ReviewDAO implements BaseDAOInterface {
         pstmt.setString(2, review.getComment());
         pstmt.setLong(3, review.getSender().getId());
         pstmt.setLong(4, review.getReceiver().getId());
+    }
+
+    @Override
+    public void delete(int id) {
+        BaseDAO.delete(id, DELETE_REQUEST, REVIEW_NAME);
     }
 }

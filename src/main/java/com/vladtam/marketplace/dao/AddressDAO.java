@@ -73,23 +73,11 @@ public class AddressDAO implements BaseDAOInterface {
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
             initializePreparedStatement(pstmt, address);
-            if (pstmt.executeUpdate() > 0) {
-                logger.trace("A new address was inserted successfully!");
-            }
-            try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                }
-            }
+            return BaseDAO.getGeneratedKey(pstmt, ADDRESS_NAME);
         } catch (SQLException e) {
             logger.error("Database create object error", e);
         }
         return -1;
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO.delete(id, DELETE_REQUEST, ADDRESS_NAME);
     }
 
     @Override
@@ -112,5 +100,10 @@ public class AddressDAO implements BaseDAOInterface {
         pstmt.setInt(2, address.getHouseNumber());
         pstmt.setInt(3, address.getFlatNumber());
         pstmt.setLong(4, address.getCity().getId());
+    }
+
+    @Override
+    public void delete(int id) {
+        BaseDAO.delete(id, DELETE_REQUEST, ADDRESS_NAME);
     }
 }

@@ -60,23 +60,11 @@ public class CategoryDAO implements BaseDAOInterface {
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
             initializePreparedStatement(pstmt, category);
-            if (pstmt.executeUpdate() > 0) {
-                logger.trace("A new category was inserted successfully!");
-            }
-            try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                }
-            }
+            return BaseDAO.getGeneratedKey(pstmt, CATEGORY_NAME);
         } catch (SQLException e) {
             logger.error("Database create object error", e);
         }
         return -1;
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO.delete(id, DELETE_REQUEST, CATEGORY_NAME);
     }
 
     @Override
@@ -97,5 +85,10 @@ public class CategoryDAO implements BaseDAOInterface {
     private void initializePreparedStatement(PreparedStatement pstmt, Category category) throws SQLException {
         pstmt.setString(1, category.getName());
         pstmt.setString(2, category.getDescription());
+    }
+
+    @Override
+    public void delete(int id) {
+        BaseDAO.delete(id, DELETE_REQUEST, CATEGORY_NAME);
     }
 }

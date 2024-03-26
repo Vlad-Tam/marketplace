@@ -109,23 +109,11 @@ public class UserDAO implements BaseDAOInterface {
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
             initializePreparedStatement(pstmt, user);
-            if (pstmt.executeUpdate() > 0) {
-                logger.trace("A new user was inserted successfully!");
-            }
-            try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                }
-            }
+            return BaseDAO.getGeneratedKey(pstmt, USER_NAME);
         } catch (SQLException e) {
             logger.error("Database create object error", e);
         }
         return -1;
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO.delete(id, DELETE_REQUEST, USER_NAME);
     }
 
     @Override
@@ -150,5 +138,10 @@ public class UserDAO implements BaseDAOInterface {
         pstmt.setString(4, user.getEmail());
         pstmt.setString(5, user.getPassword());
         pstmt.setLong(6, user.getAddress().getId());
+    }
+
+    @Override
+    public void delete(int id) {
+        BaseDAO.delete(id, DELETE_REQUEST, USER_NAME);
     }
 }

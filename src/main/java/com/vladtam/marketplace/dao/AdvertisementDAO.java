@@ -79,23 +79,11 @@ public class AdvertisementDAO implements BaseDAOInterface {
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
             initializePreparedStatement(pstmt, advertisement);
-            if (pstmt.executeUpdate() > 0) {
-                logger.trace("A new advertisement was inserted successfully!");
-            }
-            try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                }
-            }
+            return BaseDAO.getGeneratedKey(pstmt, ADVERTISEMENT_NAME);
         } catch (SQLException e) {
             logger.error("Database create object error", e);
         }
         return -1;
-    }
-
-    @Override
-    public void delete(int id) {
-        BaseDAO.delete(id, DELETE_REQUEST, ADVERTISEMENT_NAME);
     }
 
     @Override
@@ -120,5 +108,10 @@ public class AdvertisementDAO implements BaseDAOInterface {
         pstmt.setBoolean(4, advertisement.getSaleStatus());
         pstmt.setLong(5, advertisement.getVendor().getId());
         pstmt.setLong(6, advertisement.getCategory().getId());
+    }
+
+    @Override
+    public void delete(int id) {
+        BaseDAO.delete(id, DELETE_REQUEST, ADVERTISEMENT_NAME);
     }
 }
