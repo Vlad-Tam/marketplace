@@ -1,6 +1,5 @@
 package com.vladtam.marketplace.views;
 
-import com.vladtam.marketplace.dao.AddressDAO;
 import com.vladtam.marketplace.models.BaseModelInterface;
 import com.vladtam.marketplace.models.City;
 import org.slf4j.Logger;

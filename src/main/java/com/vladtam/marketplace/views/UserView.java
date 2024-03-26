@@ -43,8 +43,7 @@ public class UserView implements BaseViewInterface {
     public BaseModelInterface updateModel(BaseModelInterface bsModel, Scanner scan) {
         User user = (User) bsModel;
         while(true) {
-            logger.trace("Choice field to update:\n1-User name\n2-Surname\n3-Email\n4-Phone number\n" +
-                    "5-Password\n6-Address\n'R'eturn\n");
+            logger.trace("Choice field to update:\n1-User name\n2-Surname\n3-Email\n4-Phone number\n5-Password\n6-Address\n'R'eturn\n");
             String choice = scan.nextLine();
             if (choice.equalsIgnoreCase("R")) {
                 return user;

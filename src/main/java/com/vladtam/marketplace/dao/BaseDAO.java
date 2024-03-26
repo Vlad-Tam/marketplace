@@ -27,7 +27,7 @@ public class BaseDAO {
 
     public static int getGeneratedKey(PreparedStatement pstmt, String objectName) throws SQLException{
         if (pstmt.executeUpdate() > 0) {
-            logger.trace("A new city was inserted successfully!");
+            logger.trace("A new {} was inserted successfully!", objectName);
         }
         try(ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
             if (generatedKeys.next()) {

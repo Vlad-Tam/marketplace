@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MainView {
+    private MainView(){}
     public static final Logger logger = LoggerFactory.getLogger(MainView.class);
 
     public static void mainMenu(){
         while (true) {
-            logger.trace("MAIN MENU\n1 - Address info\n2 - Advertisement info\n" +
-                    "3 - Category info\n4 - City info\n5 - Review info\n6 - User info\n0 - Exit");
+            logger.trace("MAIN MENU\n1 - Address info\n2 - Advertisement info\n3 - Category info\n4 - City info\n5 - Review info\n6 - User info\n0 - Exit");
             Scanner scan = new Scanner(System.in);
             int choice = scan.nextInt();
             scan.nextLine();
@@ -82,7 +82,7 @@ public class MainView {
                     if (index >= 1 && index <= modelList.size()) {
                         int modelId = modelList.get(index - 1).getId();
                         while(true) {
-                            logger.trace("{}", bsDao.getFullInfo(modelId).outputFullInfo());
+                            logger.trace(bsDao.getFullInfo(modelId).outputFullInfo());
                             logger.trace("'U'pdate\n'D'elete\n'R'eturn\n");
                             String inputAction = scan.nextLine();
                             if (inputAction.equalsIgnoreCase("R")) {

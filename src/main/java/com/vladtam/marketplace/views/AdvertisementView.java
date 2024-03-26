@@ -1,6 +1,5 @@
 package com.vladtam.marketplace.views;
 
-import com.vladtam.marketplace.dao.AddressDAO;
 import com.vladtam.marketplace.dao.CategoryDAO;
 import com.vladtam.marketplace.dao.UserDAO;
 import com.vladtam.marketplace.models.*;
@@ -45,8 +44,7 @@ public class AdvertisementView implements BaseViewInterface {
     public BaseModelInterface updateModel(BaseModelInterface bsModel, Scanner scan) {
         Advertisement advertisement = (Advertisement) bsModel;
         while(true) {
-            logger.trace("Choice field to update:\n1-Product name\n2-Description\n3-Price\n" +
-                    "4-Category\n5-Vendor\n'R'eturn\n");
+            logger.trace("Choice field to update:\n1-Product name\n2-Description\n3-Price\n4-Category\n5-Vendor\n'R'eturn\n");
             String choice = scan.nextLine();
             if (choice.equalsIgnoreCase("R")) {
                 return advertisement;
