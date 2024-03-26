@@ -27,16 +27,16 @@ public class Category implements BaseModel{
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String categoryName) {
+        this.name = categoryName;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String categoryDescription) {
+        this.description = categoryDescription;
     }
 
     @Override
