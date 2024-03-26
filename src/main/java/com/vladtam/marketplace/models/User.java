@@ -4,11 +4,7 @@ import java.util.*;
 
 public class User implements BaseModelInterface {
     private Integer id;
-    private String name;
-    private String surname;
-    private String phoneNumber;
-    private String email;
-    private String password;
+    private BasicUserInfo basicInfo = new BasicUserInfo();
     private Date registrationDate;
     private Address address;
     private Set<Advertisement> salesList;
@@ -17,13 +13,9 @@ public class User implements BaseModelInterface {
 
     public User(){}
 
-    public User(Integer id, String name, String surname, String phoneNumber, String email, String password, Date registrationDate, Address address, Set<Advertisement> salesList, Set<Advertisement> wishList, Set<Review> commentsList) {
+    public User(Integer id, BasicUserInfo basicInfo, Date registrationDate, Address address, Set<Advertisement> salesList, Set<Advertisement> wishList, Set<Review> commentsList) {
         this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.password = password;
+        this.basicInfo = basicInfo;
         this.registrationDate = registrationDate;
         this.address = address;
         this.salesList = salesList;
@@ -33,8 +25,8 @@ public class User implements BaseModelInterface {
 
     public User(Integer id, String name, String surname) {
         this.id = id;
-        this.name = name;
-        this.surname = surname;
+        this.basicInfo.setName(name);
+        this.basicInfo.setSurname(surname);
     }
 
     public Integer getId() {
@@ -45,44 +37,12 @@ public class User implements BaseModelInterface {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public BasicUserInfo getBasicInfo() {
+        return basicInfo;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setBasicInfo(BasicUserInfo basicInfo) {
+        this.basicInfo = basicInfo;
     }
 
     public Date getRegistrationDate() {
@@ -127,7 +87,7 @@ public class User implements BaseModelInterface {
 
     @Override
     public String toString() {
-        return "id=" + id + " " + name + " " + surname;
+        return "id=" + id + " " + basicInfo.getName() + " " + basicInfo.getSurname();
     }
 
     @Override
@@ -156,11 +116,11 @@ public class User implements BaseModelInterface {
         }
         return "USER INFO:\n" +
                 "id = " + id + "\n" +
-                "name = " + name + "\n" +
-                "surname = " + surname + "\n" +
-                "phoneNumber = " + phoneNumber + "\n" +
-                "email = " + email + "\n" +
-                "password = " + password + "\n" +
+                "name = " + basicInfo.getName() + "\n" +
+                "surname = " + basicInfo.getSurname() + "\n" +
+                "phoneNumber = " + basicInfo.getPhoneNumber() + "\n" +
+                "email = " + basicInfo.getEmail() + "\n" +
+                "password = " + basicInfo.getPassword() + "\n" +
                 "registrationDate = " + registrationDate + "\n" +
                 "address = " + address + "\n\n" +
                 "SALES LIST:\n" + salesListInfo + "\n" +
@@ -173,11 +133,11 @@ public class User implements BaseModelInterface {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(registrationDate, user.registrationDate) && Objects.equals(address, user.address) && Objects.equals(salesList, user.salesList) && Objects.equals(wishList, user.wishList) && Objects.equals(commentsList, user.commentsList);
+        return Objects.equals(id, user.id) && Objects.equals(basicInfo, user.basicInfo) && Objects.equals(registrationDate, user.registrationDate) && Objects.equals(address, user.address) && Objects.equals(salesList, user.salesList) && Objects.equals(wishList, user.wishList) && Objects.equals(commentsList, user.commentsList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, phoneNumber, email, password, registrationDate, address, salesList, wishList, commentsList);
+        return Objects.hash(id, basicInfo, registrationDate, address, salesList, wishList, commentsList);
     }
 }

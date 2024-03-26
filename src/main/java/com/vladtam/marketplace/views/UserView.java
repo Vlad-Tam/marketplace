@@ -16,15 +16,15 @@ public class UserView implements BaseViewInterface {
         User user = new User();
         AddressDAO addressDao = new AddressDAO();
         logger.trace("Input name: ");
-        user.setName(scan.nextLine());
+        user.getBasicInfo().setName(scan.nextLine());
         logger.trace("Input surname: ");
-        user.setSurname(scan.nextLine());
+        user.getBasicInfo().setSurname(scan.nextLine());
         logger.trace("Input email: ");
-        user.setEmail(scan.nextLine());
+        user.getBasicInfo().setEmail(scan.nextLine());
         logger.trace("Input phone number: ");
-        user.setPhoneNumber(scan.nextLine());
+        user.getBasicInfo().setPhoneNumber(scan.nextLine());
         logger.trace("Input password: ");
-        user.setPassword(scan.nextLine());
+        user.getBasicInfo().setPassword(scan.nextLine());
 
         List<BaseModelInterface> addressesList = addressDao.getListInfo();
         MainView.outputList(addressesList);
@@ -54,23 +54,23 @@ public class UserView implements BaseViewInterface {
                         switch (index) {
                             case 1:
                                 logger.trace("Input name: ");
-                                user.setName(scan.nextLine());
+                                user.getBasicInfo().setName(scan.nextLine());
                                 break;
                             case 2:
                                 logger.trace("Input surname: ");
-                                user.setSurname(scan.nextLine());
+                                user.getBasicInfo().setSurname(scan.nextLine());
                                 break;
                             case 3:
                                 logger.trace("Input email: ");
-                                user.setEmail(scan.nextLine());
+                                user.getBasicInfo().setEmail(scan.nextLine());
                                 break;
                             case 4:
                                 logger.trace("Input phone number: ");
-                                user.setPhoneNumber(scan.nextLine());
+                                user.getBasicInfo().setPhoneNumber(scan.nextLine());
                                 break;
                             case 5:
                                 logger.trace("Input password: ");
-                                user.setPassword(scan.nextLine());
+                                user.getBasicInfo().setPassword(scan.nextLine());
                                 break;
                             case 6:
                                 AddressDAO addressDao = new AddressDAO();

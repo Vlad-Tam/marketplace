@@ -56,9 +56,9 @@ public class UserDAO implements BaseDAOInterface {
                 if (rs.next()) {
                     City city = new City(rs.getInt("id_city"), rs.getString("city_name"), rs.getString("region"));
                     Address address = new Address(rs.getInt("id_address"), city, rs.getString("street"), rs.getInt("house_number"), rs.getInt("flat_number"));
-                    User user = new User(rs.getInt(ID_COLUMN), rs.getString(NAME_COLUMN),
-                            rs.getString(SURNAME_COLUMN), rs.getString(PHONE_NUMBER_COLUMN),
-                            rs.getString(EMAIL_COLUMN), rs.getString(PASSWORD_COLUMN),
+                    BasicUserInfo basicUserInfo = new BasicUserInfo(rs.getString(NAME_COLUMN),  rs.getString(SURNAME_COLUMN),
+                            rs.getString(PHONE_NUMBER_COLUMN), rs.getString(EMAIL_COLUMN), rs.getString(PASSWORD_COLUMN));
+                    User user = new User(rs.getInt(ID_COLUMN), basicUserInfo,
                             rs.getDate(REGISTRATION_DATE_COLUMN), address, salesList, wishList, commentsList);
 
                     do {
@@ -132,11 +132,11 @@ public class UserDAO implements BaseDAOInterface {
     }
 
     private void initializePreparedStatement(PreparedStatement pstmt, User user) throws SQLException {
-        pstmt.setString(1, user.getName());
-        pstmt.setString(2, user.getSurname());
-        pstmt.setString(3, user.getPhoneNumber());
-        pstmt.setString(4, user.getEmail());
-        pstmt.setString(5, user.getPassword());
+        pstmt.setString(1, user.getBasicInfo().getName());
+        pstmt.setString(2, user.getBasicInfo().getSurname());
+        pstmt.setString(3, user.getBasicInfo().getPhoneNumber());
+        pstmt.setString(4, user.getBasicInfo().getEmail());
+        pstmt.setString(5, user.getBasicInfo().getPassword());
         pstmt.setLong(6, user.getAddress().getId());
     }
 

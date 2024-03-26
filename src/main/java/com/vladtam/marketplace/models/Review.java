@@ -68,8 +68,8 @@ public class Review implements BaseModelInterface {
 
     @Override
     public String toString() {
-        return "id=" + id + " " + sender.getName() + " " + sender.getSurname() + " -> " + receiver.getName() + " " +
-                receiver.getSurname() + " (Rate:" + rate + ")";
+        return "id=" + id + " " + sender.getBasicInfo().getName() + " " + sender.getBasicInfo().getSurname() + " -> " + receiver.getBasicInfo().getName() + " " +
+                receiver.getBasicInfo().getSurname() + " (Rate:" + rate + ")";
     }
 
     @Override

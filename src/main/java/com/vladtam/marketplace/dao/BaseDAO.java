@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BaseDAO {
+    private BaseDAO(){}
     private static DatabaseHandler dbHandler = new DatabaseHandler();
     public static final Logger logger = LoggerFactory.getLogger(BaseDAO.class);
 

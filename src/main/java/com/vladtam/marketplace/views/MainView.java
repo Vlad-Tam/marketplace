@@ -22,7 +22,7 @@ public class MainView {
             BaseViewInterface bsView = null;
             switch (choice){
                 case 0:
-                    System.exit(0);
+                    return;
                 case 1:
                     bsDao = new AddressDAO();
                     bsView = new AddressView();
@@ -82,8 +82,7 @@ public class MainView {
                     if (index >= 1 && index <= modelList.size()) {
                         int modelId = modelList.get(index - 1).getId();
                         while(true) {
-                            logger.trace(bsDao.getFullInfo(modelId).outputFullInfo());
-                            logger.trace("'U'pdate\n'D'elete\n'R'eturn\n");
+                            logger.trace("{}\n'U'pdate\n'D'elete\n'R'eturn\n", bsDao.getFullInfo(modelId).outputFullInfo());
                             String inputAction = scan.nextLine();
                             if (inputAction.equalsIgnoreCase("R")) {
                                 return;
@@ -91,7 +90,7 @@ public class MainView {
                                 bsDao.delete(modelId);
                                 return;
                             } else if (inputAction.equalsIgnoreCase("U")) {
-                                bsDao.update(bsView.updateModel(modelList.get(index - 1), scan));
+                                bsDao.update(bsView.updateModel(bsDao.getFullInfo(modelList.get(index - 1).getId()), scan));
                             } else
                                 return;
                         }
