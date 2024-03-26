@@ -60,19 +60,19 @@ public class UserView implements BaseViewInterface {
             if (index >= 1 && index <= 6) {
                 switch (index) {
                     case 1:
-                        updateUserField("Input name: ", user.getBasicInfo()::setName, scan);
+                        updateUserString("Input name: ", user.getBasicInfo()::setName, scan);
                         break;
                     case 2:
-                        updateUserField("Input surname: ", user.getBasicInfo()::setSurname, scan);
+                        updateUserString("Input surname: ", user.getBasicInfo()::setSurname, scan);
                         break;
                     case 3:
-                        updateUserField("Input email: ", user.getBasicInfo()::setEmail, scan);
+                        updateUserString("Input email: ", user.getBasicInfo()::setEmail, scan);
                         break;
                     case 4:
-                        updateUserField("Input phone number: ", user.getBasicInfo()::setPhoneNumber, scan);
+                        updateUserString("Input phone number: ", user.getBasicInfo()::setPhoneNumber, scan);
                         break;
                     case 5:
-                        updateUserField("Input password: ", user.getBasicInfo()::setPassword, scan);
+                        updateUserString("Input password: ", user.getBasicInfo()::setPassword, scan);
                         break;
                     case 6:
                         updateAddress(user, scan);
@@ -87,7 +87,7 @@ public class UserView implements BaseViewInterface {
         }
     }
 
-    private void updateUserField(String message, Consumer<String> fieldSetter, Scanner scan) {
+    private void updateUserString(String message, Consumer<String> fieldSetter, Scanner scan) {
         logger.trace(message);
         fieldSetter.accept(scan.nextLine());
     }

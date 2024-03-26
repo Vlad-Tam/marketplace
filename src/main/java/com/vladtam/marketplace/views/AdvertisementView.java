@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
 
 public class AdvertisementView implements BaseViewInterface {
     public static final Logger logger = LoggerFactory.getLogger(AdvertisementView.class);
@@ -49,58 +51,77 @@ public class AdvertisementView implements BaseViewInterface {
             if (choice.equalsIgnoreCase("R")) {
                 return advertisement;
             } else {
-                try {
-                    int index = Integer.parseInt(choice);
-                    if (index >= 1 && index <= 5) {
-                        switch (index) {
-                            case 1:
-                                logger.trace("Input product name: ");
-                                advertisement.setName(scan.nextLine());
-                                break;
-                            case 2:
-                                logger.trace("Input description: ");
-                                advertisement.setDescription(scan.nextLine());
-                                break;
-                            case 3:
-                                logger.trace("Input price: ");
-                                advertisement.setPrice(scan.nextDouble());
-                                scan.nextLine();
-                                break;
-                            case 4:
-                                CategoryDAO categoryDao = new CategoryDAO();
-                                List<BaseModelInterface> categoriesList = categoryDao.getListInfo();
-                                MainView.outputList(categoriesList);
-                                logger.trace("Select category (1-{}) or create new(0): ", categoriesList.size());
-                                int categoryChoice = scan.nextInt();
-                                scan.nextLine();
-                                if(categoryChoice == 0){
-                                    CategoryView categoryView = new CategoryView();
-                                    advertisement.setCategory(categoryDao.getFullInfo(categoryDao.createNew(categoryView.createNew(scan))));
-                                }else
-                                    advertisement.setCategory(categoryDao.getFullInfo(categoriesList.get(categoryChoice - 1).getId()));
-                                break;
-                            case 5:
-                                UserDAO userDao = new UserDAO();
-                                List<BaseModelInterface> usersList = userDao.getListInfo();
-                                MainView.outputList(usersList);
-                                logger.trace("Select vendor (1-{}) or create new(0): ", usersList.size());
-                                int vendorChoice = scan.nextInt();
-                                scan.nextLine();
-                                if(vendorChoice == 0){
-                                    UserView userView = new UserView();
-                                    advertisement.setVendor(userDao.getFullInfo(userDao.createNew(userView.createNew(scan))));
-                                }else
-                                    advertisement.setVendor(userDao.getFullInfo(usersList.get(vendorChoice - 1).getId()));
-                                break;
-                            default:
-                                logger.trace("Try again");
-                                break;
-                        }
-                    } else throw new NumberFormatException();
-                } catch (NumberFormatException e) {
-                    logger.trace("Try again");
-                }
+                handleUpdateChoice(choice, advertisement, scan);
             }
         }
+    }
+
+    private void handleUpdateChoice(String choice, Advertisement advertisement, Scanner scan) {
+        try {
+            int index = Integer.parseInt(choice);
+            if (index >= 1 && index <= 5) {
+                switch (index) {
+                    case 1:
+                        updateAdvertisementString("Input product name: ", advertisement::setName, scan);
+                        break;
+                    case 2:
+                        updateAdvertisementString("Input description: ", advertisement::setDescription, scan);
+                        break;
+                    case 3:
+                        updateAdvertisementDouble("Input price: ", advertisement::setPrice, scan);
+                        break;
+                    case 4:
+                        updateCategory(advertisement, scan);
+                        break;
+                    case 5:
+                        updateVendor(advertisement, scan);
+                        break;
+                    default:
+                        logger.trace("Try again");
+                        break;
+                }
+            } else throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            logger.trace("Try again");
+        }
+    }
+
+    private void updateAdvertisementString(String message, Consumer<String> fieldSetter, Scanner scan) {
+        logger.trace(message);
+        fieldSetter.accept(scan.nextLine());
+    }
+
+    private void updateAdvertisementDouble(String message, DoubleConsumer fieldSetter, Scanner scan) {
+        logger.trace(message);
+        fieldSetter.accept(scan.nextDouble());
+        scan.nextLine();
+    }
+
+    private void updateCategory(Advertisement advertisement, Scanner scan) {
+        CategoryDAO categoryDao = new CategoryDAO();
+        List<BaseModelInterface> categoriesList = categoryDao.getListInfo();
+        MainView.outputList(categoriesList);
+        logger.trace("Select category (1-{}) or create new(0): ", categoriesList.size());
+        int categoryChoice = scan.nextInt();
+        scan.nextLine();
+        if(categoryChoice == 0){
+            CategoryView categoryView = new CategoryView();
+            advertisement.setCategory(categoryDao.getFullInfo(categoryDao.createNew(categoryView.createNew(scan))));
+        }else
+            advertisement.setCategory(categoryDao.getFullInfo(categoriesList.get(categoryChoice - 1).getId()));
+    }
+
+    private void updateVendor(Advertisement advertisement, Scanner scan) {
+        UserDAO userDao = new UserDAO();
+        List<BaseModelInterface> usersList = userDao.getListInfo();
+        MainView.outputList(usersList);
+        logger.trace("Select vendor (1-{}) or create new(0): ", usersList.size());
+        int vendorChoice = scan.nextInt();
+        scan.nextLine();
+        if(vendorChoice == 0){
+            UserView userView = new UserView();
+            advertisement.setVendor(userDao.getFullInfo(userDao.createNew(userView.createNew(scan))));
+        }else
+            advertisement.setVendor(userDao.getFullInfo(usersList.get(vendorChoice - 1).getId()));
     }
 }

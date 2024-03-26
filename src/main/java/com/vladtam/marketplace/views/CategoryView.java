@@ -41,10 +41,10 @@ public class CategoryView implements BaseViewInterface {
             if (index >= 1 && index <= 2) {
                 switch (index) {
                     case 1:
-                        updateCategoryField("Input category name: ", category::setName, scan);
+                        updateCategoryString("Input category name: ", category::setName, scan);
                         break;
                     case 2:
-                        updateCategoryField("Input category description: ", category::setDescription, scan);
+                        updateCategoryString("Input category description: ", category::setDescription, scan);
                         break;
                     default:
                         logger.trace("Try again");
@@ -56,9 +56,8 @@ public class CategoryView implements BaseViewInterface {
         }
     }
 
-    private void updateCategoryField(String message, Consumer<String> fieldSetter, Scanner scan) {
+    private void updateCategoryString(String message, Consumer<String> fieldSetter, Scanner scan) {
         logger.trace(message);
         fieldSetter.accept(scan.nextLine());
     }
-
 }

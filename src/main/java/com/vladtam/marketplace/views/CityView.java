@@ -41,10 +41,10 @@ public class CityView implements BaseViewInterface {
             if (index >= 1 && index <= 2) {
                 switch (index) {
                     case 1:
-                        updateCityField("Input city name: ", city::setName, scan);
+                        updateCityString("Input city name: ", city::setName, scan);
                         break;
                     case 2:
-                        updateCityField("Input region: ", city::setRegion, scan);
+                        updateCityString("Input region: ", city::setRegion, scan);
                         break;
                     default:
                         logger.trace("Try again");
@@ -56,9 +56,8 @@ public class CityView implements BaseViewInterface {
         }
     }
 
-    private void updateCityField(String message, Consumer<String> fieldSetter, Scanner scan) {
+    private void updateCityString(String message, Consumer<String> fieldSetter, Scanner scan) {
         logger.trace(message);
         fieldSetter.accept(scan.nextLine());
     }
-
 }

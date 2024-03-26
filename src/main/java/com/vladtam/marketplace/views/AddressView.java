@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 public class AddressView implements BaseViewInterface {
     public static final Logger logger = LoggerFactory.getLogger(AddressView.class);
@@ -61,13 +62,13 @@ public class AddressView implements BaseViewInterface {
                         updateCity(address, scan);
                         break;
                     case 2:
-                        updateAddressField("Input street name: ", address::setStreet, scan);
+                        updateAddressString("Input street name: ", address::setStreet, scan);
                         break;
                     case 3:
-                        updateAddressNumber("Input house number: ", address::setHouseNumber, scan);
+                        updateAddressInt("Input house number: ", address::setHouseNumber, scan);
                         break;
                     case 4:
-                        updateAddressNumber("Input flat number: ", address::setFlatNumber, scan);
+                        updateAddressInt("Input flat number: ", address::setFlatNumber, scan);
                         break;
                     default:
                         logger.trace("Try again");
@@ -93,15 +94,14 @@ public class AddressView implements BaseViewInterface {
             address.setCity(cityDao.getFullInfo(citiesList.get(cityChoice - 1).getId()));
     }
 
-    private void updateAddressField(String message, Consumer<String> fieldSetter, Scanner scan) {
+    private void updateAddressString(String message, Consumer<String> fieldSetter, Scanner scan) {
         logger.trace(message);
         fieldSetter.accept(scan.nextLine());
     }
 
-    private void updateAddressNumber(String message, Consumer<Integer> fieldSetter, Scanner scan) {
+    private void updateAddressInt(String message, IntConsumer fieldSetter, Scanner scan) {
         logger.trace(message);
         fieldSetter.accept(scan.nextInt());
         scan.nextLine();
     }
-
 }
