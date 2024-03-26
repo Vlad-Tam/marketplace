@@ -13,7 +13,6 @@ import java.util.List;
 
 public class AddressDAO implements BaseDAOInterface {
     private DatabaseHandler dbHandler = new DatabaseHandler();
-    //private BaseDAO baseDAO = new BaseDAO();
     public static final Logger logger = LoggerFactory.getLogger(AddressDAO.class);
     private static final String GET_FULL_INFO_REQUEST = "SELECT addr.*, ci.name AS city_name, ci.region " +
             "AS city_region FROM address addr JOIN city ci ON addr.id_city = ci.id WHERE addr.id = ?;";

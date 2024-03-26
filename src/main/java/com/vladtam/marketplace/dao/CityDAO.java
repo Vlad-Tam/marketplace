@@ -13,8 +13,8 @@ import java.util.List;
 public class CityDAO implements BaseDAOInterface {
     private DatabaseHandler dbHandler = new DatabaseHandler();
     public static final Logger logger = LoggerFactory.getLogger(CityDAO.class);
-    private static final String GET_FULL_INFO_REQUEST = "SELECT * FROM city WHERE id = ?;";
-    private static final String GET_LIST_INFO_REQUEST = "SELECT * FROM city;";
+    private static final String GET_FULL_INFO_REQUEST = "SELECT id, region, name FROM city WHERE id = ?;";
+    private static final String GET_LIST_INFO_REQUEST = "SELECT id, region, name FROM city;";
     private static final String INSERT_REQUEST = "INSERT INTO city (name, region) VALUES (?, ?);";
     private static final String DELETE_REQUEST = "DELETE FROM city WHERE id = ?;";
     private static final String UPDATE_REQUEST = "UPDATE city SET name = ?, region = ? WHERE id = ?;";

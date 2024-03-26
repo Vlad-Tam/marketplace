@@ -1,35 +1,40 @@
 package com.vladtam.marketplace.views;
 
+import com.vladtam.marketplace.dao.AddressDAO;
 import com.vladtam.marketplace.dao.CategoryDAO;
 import com.vladtam.marketplace.dao.UserDAO;
 import com.vladtam.marketplace.models.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class AdvertisementView implements BaseViewInterface {
+    public static final Logger logger = LoggerFactory.getLogger(AdvertisementView.class);
+
     @Override
     public BaseModelInterface createNew(Scanner scan) {
         Advertisement advertisement = new Advertisement();
         CategoryDAO categoryDao = new CategoryDAO();
         UserDAO userDao = new UserDAO();
 
-        System.out.println("Input name: ");
+        logger.trace("Input name: ");
         advertisement.setName(scan.nextLine());
-        System.out.println("Input description: ");
+        logger.trace("Input description: ");
         advertisement.setDescription(scan.nextLine());
-        System.out.println("Input price: ");
+        logger.trace("Input price: ");
         advertisement.setPrice(scan.nextDouble());
         advertisement.setSaleStatus(false);
 
         List<BaseModelInterface> categoriesList = categoryDao.getListInfo();
         MainView.outputList(categoriesList);
-        System.out.println("Select category (1-" + categoriesList.size() + "): ");
+        logger.trace("Select category (1-{}): ", categoriesList.size());
         advertisement.setCategory(categoryDao.getFullInfo(scan.nextInt()));
 
         List<BaseModelInterface> usersList = userDao.getListInfo();
         MainView.outputList(usersList);
-        System.out.println("Select vendor (1-" + usersList.size() + "): ");
+        logger.trace("Select vendor (1-{}): ", usersList.size());
         advertisement.setVendor(userDao.getFullInfo(scan.nextInt()));
         scan.nextLine();
 
@@ -40,7 +45,7 @@ public class AdvertisementView implements BaseViewInterface {
     public BaseModelInterface updateModel(BaseModelInterface bsModel, Scanner scan) {
         Advertisement advertisement = (Advertisement) bsModel;
         while(true) {
-            System.out.println("Choice field to update:\n1-Product name\n2-Description\n3-Price\n" +
+            logger.trace("Choice field to update:\n1-Product name\n2-Description\n3-Price\n" +
                     "4-Category\n5-Vendor\n'R'eturn\n");
             String choice = scan.nextLine();
             if (choice.equalsIgnoreCase("R")) {
@@ -51,15 +56,15 @@ public class AdvertisementView implements BaseViewInterface {
                     if (index >= 1 && index <= 5) {
                         switch (index) {
                             case 1:
-                                System.out.println("Input product name: ");
+                                logger.trace("Input product name: ");
                                 advertisement.setName(scan.nextLine());
                                 break;
                             case 2:
-                                System.out.println("Input description: ");
+                                logger.trace("Input description: ");
                                 advertisement.setDescription(scan.nextLine());
                                 break;
                             case 3:
-                                System.out.println("Input price: ");
+                                logger.trace("Input price: ");
                                 advertisement.setPrice(scan.nextDouble());
                                 scan.nextLine();
                                 break;
@@ -67,7 +72,7 @@ public class AdvertisementView implements BaseViewInterface {
                                 CategoryDAO categoryDao = new CategoryDAO();
                                 List<BaseModelInterface> categoriesList = categoryDao.getListInfo();
                                 MainView.outputList(categoriesList);
-                                System.out.println("Select category (1-" + categoriesList.size() + ") or create new(0): ");
+                                logger.trace("Select category (1-{}) or create new(0): ", categoriesList.size());
                                 int categoryChoice = scan.nextInt();
                                 scan.nextLine();
                                 if(categoryChoice == 0){
@@ -80,7 +85,7 @@ public class AdvertisementView implements BaseViewInterface {
                                 UserDAO userDao = new UserDAO();
                                 List<BaseModelInterface> usersList = userDao.getListInfo();
                                 MainView.outputList(usersList);
-                                System.out.println("Select vendor (1-" + usersList.size() + ") or create new(0): ");
+                                logger.trace("Select vendor (1-{}) or create new(0): ", usersList.size());
                                 int vendorChoice = scan.nextInt();
                                 scan.nextLine();
                                 if(vendorChoice == 0){
@@ -90,12 +95,12 @@ public class AdvertisementView implements BaseViewInterface {
                                     advertisement.setVendor(userDao.getFullInfo(usersList.get(vendorChoice - 1).getId()));
                                 break;
                             default:
-                                System.out.println("Try again");
+                                logger.trace("Try again");
                                 break;
                         }
                     } else throw new NumberFormatException();
                 } catch (NumberFormatException e) {
-                    System.out.println("Try again");
+                    logger.trace("Try again");
                 }
             }
         }

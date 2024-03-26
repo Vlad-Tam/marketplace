@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class Config {
     private static final Properties properties = new Properties();
-    private static final Logger logger = LoggerFactory.getLogger(DatabaseHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(Config.class);
 
     static {
         try (InputStream input = DatabaseHandler.class.getClassLoader().getResourceAsStream("database.properties")) {
@@ -40,5 +40,9 @@ public class Config {
 
     public static String getDbName() {
         return properties.getProperty("datasource.dbName");
+    }
+
+    private Config() {
+        throw new IllegalStateException("Utility class");
     }
 }

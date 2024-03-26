@@ -13,8 +13,8 @@ import java.util.List;
 public class CategoryDAO implements BaseDAOInterface {
     private DatabaseHandler dbHandler = new DatabaseHandler();
     public static final Logger logger = LoggerFactory.getLogger(CategoryDAO.class);
-    private static final String GET_FULL_INFO_REQUEST = "SELECT * FROM category WHERE id = ?;";
-    private static final String GET_LIST_INFO_REQUEST = "SELECT * FROM category;";
+    private static final String GET_FULL_INFO_REQUEST = "SELECT id, name, description FROM category WHERE id = ?;";
+    private static final String GET_LIST_INFO_REQUEST = "SELECT id, name, description FROM category;";
     private static final String INSERT_REQUEST = "INSERT INTO category (name, description) VALUES (?, ?);";
     private static final String DELETE_REQUEST = "DELETE FROM category WHERE id = ?;";
     private static final String UPDATE_REQUEST = "UPDATE category SET name = ?, description = ? WHERE id = ?;";

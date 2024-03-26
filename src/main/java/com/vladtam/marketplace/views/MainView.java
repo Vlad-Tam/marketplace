@@ -2,14 +2,18 @@ package com.vladtam.marketplace.views;
 
 import com.vladtam.marketplace.dao.*;
 import com.vladtam.marketplace.models.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class MainView {
+    public static final Logger logger = LoggerFactory.getLogger(MainView.class);
+
     public static void mainMenu(){
         while (true) {
-            System.out.println("MAIN MENU\n1 - Address info\n2 - Advertisement info\n" +
+            logger.trace("MAIN MENU\n1 - Address info\n2 - Advertisement info\n" +
                     "3 - Category info\n4 - City info\n5 - Review info\n6 - User info\n0 - Exit");
             Scanner scan = new Scanner(System.in);
             int choice = scan.nextInt();
@@ -50,7 +54,7 @@ public class MainView {
                     MainView.actionChoice(bsDao, bsView, scan);
                     break;
                 default:
-                    System.out.println("Try again");
+                    logger.trace("Try again");
                     break;
             }
         }
@@ -58,7 +62,7 @@ public class MainView {
 
     public static void outputList(List<BaseModelInterface> list){
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(i+1 + ") " + list.get(i));
+            logger.trace("{}) {}", i+1, list.get(i));
         }
     }
 
@@ -66,7 +70,7 @@ public class MainView {
         while (true) {
             List<BaseModelInterface> modelList = bsDao.getListInfo();
             MainView.outputList(modelList);
-            System.out.println("'1'-'" + modelList.size() + "' get full info\n'C'reate\n'R'eturn");
+            logger.trace("'1'-'{}' get full info\n'C'reate\n'R'eturn", modelList.size());
             String input = scan.nextLine();
             if (input.equalsIgnoreCase("R")) {
                 return;
@@ -78,8 +82,8 @@ public class MainView {
                     if (index >= 1 && index <= modelList.size()) {
                         int modelId = modelList.get(index - 1).getId();
                         while(true) {
-                            System.out.println(bsDao.getFullInfo(modelId).outputFullInfo());
-                            System.out.println("'U'pdate\n'D'elete\n'R'eturn\n");
+                            logger.trace("{}", bsDao.getFullInfo(modelId).outputFullInfo());
+                            logger.trace("'U'pdate\n'D'elete\n'R'eturn\n");
                             String inputAction = scan.nextLine();
                             if (inputAction.equalsIgnoreCase("R")) {
                                 return;
@@ -93,7 +97,7 @@ public class MainView {
                         }
                     } else throw new NumberFormatException();
                 } catch (NumberFormatException e) {
-                    System.out.println("Try again");
+                    logger.trace("Try again");
                 }
             }
         }

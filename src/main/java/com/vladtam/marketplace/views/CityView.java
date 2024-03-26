@@ -1,17 +1,22 @@
 package com.vladtam.marketplace.views;
 
+import com.vladtam.marketplace.dao.AddressDAO;
 import com.vladtam.marketplace.models.BaseModelInterface;
 import com.vladtam.marketplace.models.City;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
 public class CityView implements BaseViewInterface {
+    public static final Logger logger = LoggerFactory.getLogger(CityView.class);
+
     @Override
     public BaseModelInterface createNew(Scanner scan) {
         City city = new City();
-        System.out.println("Input city region: ");
+        logger.trace("Input city region: ");
         city.setRegion(scan.nextLine());
-        System.out.println("Input city name: ");
+        logger.trace("Input city name: ");
         city.setName(scan.nextLine());
         return city;
     }
@@ -20,7 +25,7 @@ public class CityView implements BaseViewInterface {
     public BaseModelInterface updateModel(BaseModelInterface bsModel, Scanner scan) {
         City city = (City) bsModel;
         while(true) {
-            System.out.println("Choice field to update:\n1-City name\n2-Region\n'R'eturn\n");
+            logger.trace("Choice field to update:\n1-City name\n2-Region\n'R'eturn\n");
             String choice = scan.nextLine();
             if (choice.equalsIgnoreCase("R")) {
                 return city;
@@ -30,20 +35,20 @@ public class CityView implements BaseViewInterface {
                     if (index >= 1 && index <= 2) {
                         switch (index) {
                             case 1:
-                                System.out.println("Input city name: ");
+                                logger.trace("Input city name: ");
                                 city.setName(scan.nextLine());
                                 break;
                             case 2:
-                                System.out.println("Input region: ");
+                                logger.trace("Input region: ");
                                 city.setRegion(scan.nextLine());
                                 break;
                             default:
-                                System.out.println("Try again");
+                                logger.trace("Try again");
                                 break;
                         }
                     } else throw new NumberFormatException();
                 } catch (NumberFormatException e) {
-                    System.out.println("Try again");
+                    logger.trace("Try again");
                 }
             }
         }
