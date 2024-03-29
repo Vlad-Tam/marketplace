@@ -18,20 +18,31 @@ public class DeleteWishServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         WishDAO wishDAO = new WishDAO();
-        List<String> allowedHosts = new ArrayList();
-        allowedHosts.add("http://localhost:8080/wishes");
-        allowedHosts.add("http://localhost:8080/advertisements/*");
-        allowedHosts.add("http://localhost:8080/users/*");
+        List<String> allowedHosts = new ArrayList<>();
+        allowedHosts.add("/wishes");
+        allowedHosts.add("/advertisements/*");
+        allowedHosts.add("/users/*");
 
         try {
             wishDAO.delete(Integer.parseInt(request.getParameter("userId")), Integer.parseInt(request.getParameter("advertisementId")));
             String path = request.getParameter("originalPage");
-            if (allowedHosts.contains(path))
+            if (allowedHosts.stream().anyMatch(path::matches) || isGoodDeletePath(path))
                 response.sendRedirect(path);
         } catch (NumberFormatException e) {
             logger.error("Parameter is not number", e);
         } catch (IOException e) {
             logger.error("Redirect IOException", e);
         }
+    }
+
+    private boolean isGoodDeletePath(String path) {
+        if (path.startsWith("/users/")) {
+            String idPart = path.substring("/users/".length());
+            return idPart.matches("\\d+");
+        }else if(path.startsWith("/advertisements/")) {
+            String idPart = path.substring("/advertisements/".length());
+            return idPart.matches("\\d+");
+        }
+        return false;
     }
 }
