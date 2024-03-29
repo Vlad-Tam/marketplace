@@ -23,17 +23,19 @@
     <h4>Seller: <%= advertisement.getVendor().getBasicInfo().getName() + " " + advertisement.getVendor().getBasicInfo().getSurname() %></h4>
     <h4>Wishing people:</h4>
     <% for (User user : advertisement.getWishingPeopleList()) { %>
-    <li style="display: flex; align-items: center;">
-        <a href="<%= "../../users/" + user.getId() %>" style="margin-right: 10px;">
-            <%= "   " + user.getBasicInfo().getSurname() + " " + user.getBasicInfo().getName() %>
-        </a>
-        <form action="/DeleteWishServlet" method="post" style="margin-bottom: 0;">
-            <input type="hidden" name="userId" value="<%=user.getId()%>" />
-            <input type="hidden" name="advertisementId" value="<%=advertisement.getId()%>" />
-            <input type="hidden" name="originalPage" value="<%="/advertisements/" + advertisement.getId()%>" />
-            <input type="submit" value="Delete" />
-        </form>
-    </li>
+    <ul>
+        <li style="display: flex; align-items: center;">
+            <a href="<%= "../../users/" + user.getId() %>" style="margin-right: 10px;">
+                <%= "   " + user.getBasicInfo().getSurname() + " " + user.getBasicInfo().getName() %>
+            </a>
+            <form action="/DeleteWishServlet" method="post" style="margin-bottom: 0;">
+                <input type="hidden" name="userId" value="<%=user.getId()%>" />
+                <input type="hidden" name="advertisementId" value="<%=advertisement.getId()%>" />
+                <input type="hidden" name="originalPage" value="<%="/advertisements/" + advertisement.getId()%>" />
+                <input type="submit" value="Delete" />
+            </form>
+        </li>
+    </ul>
     <% } %>
     <form action="/GetCreatingWishesFieldsServlet" method="post">
         <input type="hidden" name="advertisementId" value="<%=advertisement.getId()%>" />

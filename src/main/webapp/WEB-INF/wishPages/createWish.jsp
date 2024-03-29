@@ -32,7 +32,7 @@
     <% } %>
   </h4>
 
-  <h1> </h1>
+  <br><br>
 
   <h3>
     <label for="advertisement">Advertisement:</label><br>

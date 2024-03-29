@@ -1,7 +1,6 @@
 package com.vladtam.jspapplication.servlets.address;
 
 import com.vladtam.jspapplication.daos.AddressDAO;
-import com.vladtam.jspapplication.servlets.advertisement.DeleteAdvertisementServlet;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;

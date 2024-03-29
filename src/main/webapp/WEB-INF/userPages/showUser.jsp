@@ -25,23 +25,27 @@
             ", street " + user.getAddress().getStreet() + ", " + user.getAddress().getHouseNumber() + "-" + user.getAddress().getFlatNumber() %></h4>
     <h4>Products on sale:</h4>
     <% for (Advertisement product : user.getSalesList()) { %>
-    <li>
+    <ul>
+        <li>
         <%= "   " + product.getBasicInfo().getName() + ", price: " + product.getBasicInfo().getPrice() + "$" %>
-    </li>
+        </li>
+    </ul>
     <% } %>
     <h4>Wishes:</h4>
     <% for (Advertisement wish : user.getWishList()) { %>
-    <li style="display: flex; align-items: center;">
-        <a href="<%= "../../advertisements/" + wish.getId() %>" style="margin-right: 10px;">
-            <%= "   " + wish.getBasicInfo().getName() + ", price: " + wish.getBasicInfo().getPrice() + "$" %>
-        </a>
-        <form action="/DeleteWishServlet" method="post" style="margin-bottom: 0;">
-            <input type="hidden" name="userId" value="<%=user.getId()%>" />
-            <input type="hidden" name="advertisementId" value="<%=wish.getId()%>" />
-            <input type="hidden" name="originalPage" value="<%="/users/" + user.getId()%>" />
-            <input type="submit" value="Delete" />
-        </form>
-    </li>
+    <ul>
+        <li style="display: flex; align-items: center;">
+            <a href="<%= "../../advertisements/" + wish.getId() %>" style="margin-right: 10px;">
+                <%= "   " + wish.getBasicInfo().getName() + ", price: " + wish.getBasicInfo().getPrice() + "$" %>
+            </a>
+            <form action="/DeleteWishServlet" method="post" style="margin-bottom: 0;">
+                <input type="hidden" name="userId" value="<%=user.getId()%>" />
+                <input type="hidden" name="advertisementId" value="<%=wish.getId()%>" />
+                <input type="hidden" name="originalPage" value="<%="/users/" + user.getId()%>" />
+                <input type="submit" value="Delete" />
+            </form>
+        </li>
+    </ul>
     <% } %>
     <form action="/GetCreatingWishesFieldsServlet" method="post">
         <input type="hidden" name="userId" value="<%=user.getId()%>" />
@@ -50,9 +54,11 @@
     </form>
     <h4>Comments:</h4>
     <% for (Review review : user.getCommentsList()) { %>
-    <li>
-        <%= "   From: " + review.getSender().getBasicInfo().getName() + " " + review.getSender().getBasicInfo().getSurname() + ", rate: " + review.getRate() %>
-    </li>
+    <ul>
+        <li>
+            <%= "   From: " + review.getSender().getBasicInfo().getName() + " " + review.getSender().getBasicInfo().getSurname() + ", rate: " + review.getRate() %>
+        </li>
+    </ul>
     <% } %>
     <h3>
         <a href="../users">Return to users list</a>

@@ -2,7 +2,6 @@ package com.vladtam.jspapplication.servlets.city;
 
 import com.vladtam.jspapplication.daos.CityDAO;
 import com.vladtam.jspapplication.models.City;
-import com.vladtam.jspapplication.servlets.user.DeleteUserServlet;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;

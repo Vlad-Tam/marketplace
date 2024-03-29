@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "DeleteWishServlet", value = "/DeleteWishServlet")
 public class DeleteWishServlet extends HttpServlet {
@@ -16,10 +18,16 @@ public class DeleteWishServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         WishDAO wishDAO = new WishDAO();
+        List<String> allowedHosts = new ArrayList();
+        allowedHosts.add("http://localhost:8080/wishes");
+        allowedHosts.add("http://localhost:8080/advertisements/*");
+        allowedHosts.add("http://localhost:8080/users/*");
+
         try {
             wishDAO.delete(Integer.parseInt(request.getParameter("userId")), Integer.parseInt(request.getParameter("advertisementId")));
             String path = request.getParameter("originalPage");
-            response.sendRedirect(path);
+            if (allowedHosts.contains(path))
+                response.sendRedirect(path);
         } catch (NumberFormatException e) {
             logger.error("Parameter is not number", e);
         } catch (IOException e) {
