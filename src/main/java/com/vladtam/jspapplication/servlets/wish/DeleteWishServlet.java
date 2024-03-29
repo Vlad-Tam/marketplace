@@ -26,7 +26,7 @@ public class DeleteWishServlet extends HttpServlet {
         try {
             wishDAO.delete(Integer.parseInt(request.getParameter("userId")), Integer.parseInt(request.getParameter("advertisementId")));
             String path = request.getParameter("originalPage");
-            if (allowedHosts.stream().anyMatch(path::matches) || isGoodDeletePath(path))
+            if (allowedHosts.contains(path) || isGoodDeletePath(path))
                 response.sendRedirect(path);
         } catch (NumberFormatException e) {
             logger.error("Parameter is not number", e);

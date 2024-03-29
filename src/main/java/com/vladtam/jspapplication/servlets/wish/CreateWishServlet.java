@@ -26,7 +26,8 @@ public class CreateWishServlet extends HttpServlet {
         try {
             wishDAO.createNew(Integer.parseInt(request.getParameter("userId")), Integer.parseInt(request.getParameter("advertisementId")));
             String path = request.getParameter("originalPage");
-            response.sendRedirect(path);
+            if (allowedHosts.contains(path) || isGoodCreatePath(path))
+                response.sendRedirect(path);
         } catch (NumberFormatException e) {
             logger.error("Parameter is not number", e);
         } catch (IOException e) {
