@@ -1,9 +1,7 @@
 package com.vladtam.jspapplication.servlets;
 
-import com.vladtam.jspapplication.daos.BaseDAO;
 import com.vladtam.jspapplication.daos.BaseDAOInterface;
 import com.vladtam.jspapplication.models.BaseModelInterface;
-import com.vladtam.jspapplication.servlets.wish.WishesListServlet;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +14,8 @@ import java.util.List;
 
 public class BaseServlet {
     public static final Logger logger = LoggerFactory.getLogger(BaseServlet.class);
+
+    private BaseServlet(){}
 
     public static void baseListServletMethod(BaseDAOInterface baseDAO, HttpServletRequest request, HttpServletResponse response, String attributeName, String pagePath){
         List<BaseModelInterface> baseList = baseDAO.getListInfo();
