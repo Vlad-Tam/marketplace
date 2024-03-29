@@ -1,10 +1,7 @@
 package com.vladtam.jspapplication.servlets.advertisement;
 
 import com.vladtam.jspapplication.daos.AdvertisementDAO;
-import com.vladtam.jspapplication.daos.UserDAO;
-import com.vladtam.jspapplication.models.Advertisement;
 import com.vladtam.jspapplication.models.BaseModelInterface;
-import com.vladtam.jspapplication.servlets.city.ShowCityServlet;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -16,6 +13,7 @@ import java.io.IOException;
 @WebServlet(name = "ShowAdvertisementServlet", value = "/ShowAdvertisementServlet")
 public class ShowAdvertisementServlet extends HttpServlet {
     public static final Logger logger = LoggerFactory.getLogger(ShowAdvertisementServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
@@ -29,11 +27,10 @@ public class ShowAdvertisementServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } catch (NumberFormatException e) {
             logger.error("Parameter is not number", e);
+        } catch (ServletException e) {
+            logger.error("Forward ServletException", e);
+        } catch (IOException e) {
+            logger.error("Forward IOException", e);
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

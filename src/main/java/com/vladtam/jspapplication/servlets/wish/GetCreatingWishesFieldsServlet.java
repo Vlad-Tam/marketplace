@@ -1,24 +1,20 @@
 package com.vladtam.jspapplication.servlets.wish;
 
-import com.vladtam.jspapplication.daos.AddressDAO;
 import com.vladtam.jspapplication.daos.AdvertisementDAO;
 import com.vladtam.jspapplication.daos.UserDAO;
-import com.vladtam.jspapplication.models.Advertisement;
 import com.vladtam.jspapplication.models.BaseModelInterface;
-import com.vladtam.jspapplication.models.User;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "GetCreatingWishesFieldsServlet", value = "/GetCreatingWishesFieldsServlet")
 public class GetCreatingWishesFieldsServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
+    public static final Logger logger = LoggerFactory.getLogger(GetCreatingWishesFieldsServlet.class);
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,6 +37,12 @@ public class GetCreatingWishesFieldsServlet extends HttpServlet {
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/wishPages/createWish.jsp");
-        dispatcher.forward(request, response);
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            logger.error("Forward ServletException", e);
+        } catch (IOException e) {
+            logger.error("Forward IOException", e);
+        }
     }
 }

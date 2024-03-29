@@ -15,7 +15,7 @@ public class DatabaseHandler {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            logger.error("Database connect SQLException error", e);
         }
         String connectionString = "jdbc:postgresql://" + Config.getDbHost() + ":" + Config.getDbPort() +
                 "/" + Config.getDbName() + "?autoReconnect=true&useSSL=false";

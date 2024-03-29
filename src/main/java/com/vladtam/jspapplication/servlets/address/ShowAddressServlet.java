@@ -13,6 +13,7 @@ import java.io.IOException;
 @WebServlet(name = "ShowAddressServlet", value = "/ShowAddressServlet")
 public class ShowAddressServlet extends HttpServlet {
     public static final Logger logger = LoggerFactory.getLogger(ShowAddressServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
@@ -26,11 +27,10 @@ public class ShowAddressServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } catch (NumberFormatException e) {
             logger.error("Parameter is not number", e);
+        } catch (ServletException e) {
+            logger.error("Forward ServletException", e);
+        } catch (IOException e) {
+            logger.error("Forward IOException", e);
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

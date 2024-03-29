@@ -3,7 +3,6 @@ package com.vladtam.jspapplication.servlets.address;
 import com.vladtam.jspapplication.daos.AddressDAO;
 import com.vladtam.jspapplication.daos.CityDAO;
 import com.vladtam.jspapplication.models.Address;
-import com.vladtam.jspapplication.models.City;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -12,11 +11,6 @@ import java.io.IOException;
 
 @WebServlet(name = "CreateAddressServlet", value = "/CreateAddressServlet")
 public class CreateAddressServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Address address = new Address();

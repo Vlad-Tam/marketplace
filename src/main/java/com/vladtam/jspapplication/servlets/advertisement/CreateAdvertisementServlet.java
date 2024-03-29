@@ -1,12 +1,9 @@
 package com.vladtam.jspapplication.servlets.advertisement;
 
-import com.vladtam.jspapplication.daos.AddressDAO;
 import com.vladtam.jspapplication.daos.AdvertisementDAO;
 import com.vladtam.jspapplication.daos.CategoryDAO;
 import com.vladtam.jspapplication.daos.UserDAO;
 import com.vladtam.jspapplication.models.Advertisement;
-import com.vladtam.jspapplication.models.Category;
-import com.vladtam.jspapplication.models.User;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -15,11 +12,6 @@ import java.io.IOException;
 
 @WebServlet(name = "CreateAdvertisementServlet", value = "/CreateAdvertisementServlet")
 public class CreateAdvertisementServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Advertisement advertisement = new Advertisement();

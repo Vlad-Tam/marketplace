@@ -1,9 +1,7 @@
 package com.vladtam.jspapplication.servlets.user;
 
 import com.vladtam.jspapplication.daos.AddressDAO;
-import com.vladtam.jspapplication.daos.CityDAO;
 import com.vladtam.jspapplication.daos.UserDAO;
-import com.vladtam.jspapplication.models.Address;
 import com.vladtam.jspapplication.models.User;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -13,11 +11,6 @@ import java.io.IOException;
 
 @WebServlet(name = "CreateUserServlet", value = "/CreateUserServlet")
 public class CreateUserServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();

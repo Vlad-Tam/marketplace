@@ -11,11 +11,6 @@ import java.io.IOException;
 @WebServlet(name = "CreateCityServlet", value = "/CreateCityServlet")
 public class CreateCityServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         City city = new City();
         city.setName(request.getParameter("name"));

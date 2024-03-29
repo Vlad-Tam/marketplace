@@ -14,11 +14,7 @@ import java.util.Set;
 public class AdvertisementDAO implements BaseDAOInterface {
     private DatabaseHandler dbHandler = new DatabaseHandler();
     public static final Logger logger = LoggerFactory.getLogger(AdvertisementDAO.class);
-    private static final String GET_FULL_INFO_REQUEST = "SELECT advert.*, categ.name AS category_name, categ.description AS category_description, \n" +
-            "vendor.name AS vendor_name, vendor.surname AS vendor_surname, wl.id_user AS wish_list_user_id,\n" +
-            "wisher.name AS wisher_name, wisher.surname AS wisher_surname FROM advertisement advert \n" +
-            "JOIN category categ ON advert.id_category = categ.id JOIN user_account vendor ON advert.id_vendor = vendor.id\n" +
-            "LEFT JOIN wish_list wl ON advert.id = wl.id_advertisement LEFT JOIN user_account wisher ON wl.id_user = wisher.id WHERE advert.id = ?;";
+    private static final String GET_FULL_INFO_REQUEST = "SELECT advert.*, categ.name AS category_name, categ.description AS category_description, vendor.name AS vendor_name, vendor.surname AS vendor_surname, wl.id_user AS wish_list_user_id, wisher.name AS wisher_name, wisher.surname AS wisher_surname FROM advertisement advert JOIN category categ ON advert.id_category = categ.id JOIN user_account vendor ON advert.id_vendor = vendor.id LEFT JOIN wish_list wl ON advert.id = wl.id_advertisement LEFT JOIN user_account wisher ON wl.id_user = wisher.id WHERE advert.id = ?;";
     private static final String GET_LIST_INFO_REQUEST = "SELECT id, name, price FROM advertisement;";
     private static final String INSERT_REQUEST = "INSERT INTO advertisement " +
             "(name, description, price, status, id_vendor, id_category) VALUES (?, ?, ?, ?, ?, ?);";
@@ -62,7 +58,7 @@ public class AdvertisementDAO implements BaseDAOInterface {
 
     private Advertisement createAdvertisement(ResultSet rs) throws SQLException {
         User vendor = new User(rs.getInt(VENDOR_ID_COLUMN), rs.getString(VENDOR_NAME_COLUMN), rs.getString(VENDOR_SURNAME_COLUMN));
-        Category category = new Category(rs.getInt("id_category"), rs.getString("category_name"), rs.getString("category_description"));
+        Category category = new Category(rs.getInt(CATEGORY_ID_COLUMN), rs.getString(CATEGORY_NAME_COLUMN), rs.getString(CATEGORY_DESCRIPTION_COLUMN));
         BasicAdvertisementInfo basicInfo = new BasicAdvertisementInfo(rs.getString(NAME_COLUMN),  rs.getString(DESCRIPTION_COLUMN), rs.getDouble(PRICE_COLUMN));
         return new Advertisement(rs.getInt(ID_COLUMN), basicInfo, rs.getBoolean(STATUS_COLUMN), category, vendor, new HashSet<>());
     }

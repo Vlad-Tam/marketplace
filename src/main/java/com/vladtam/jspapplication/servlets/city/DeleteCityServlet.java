@@ -10,11 +10,6 @@ import java.io.IOException;
 @WebServlet(name = "DeleteCityServlet", value = "/DeleteCityServlet")
 public class DeleteCityServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CityDAO cityDAO = new CityDAO();
         cityDAO.delete(Integer.parseInt(request.getParameter("cityId")));
