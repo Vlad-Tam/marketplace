@@ -2,7 +2,6 @@ package com.vladtam.jspapplication.servlets.wish;
 
 import com.vladtam.jspapplication.daos.WishDAO;
 import com.vladtam.jspapplication.models.Wish;
-import com.vladtam.jspapplication.servlets.user.ShowUserServlet;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -15,7 +14,7 @@ import java.util.List;
 @WebServlet(name = "WishesListServlet", value = "/WishesListServlet")
 public class WishesListServlet extends HttpServlet {
     public static final Logger logger = LoggerFactory.getLogger(WishesListServlet.class);
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         WishDAO wishDAO = new WishDAO();

@@ -20,25 +20,27 @@ public class GetCreatingWishesFieldsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
         AdvertisementDAO advertisementDAO = new AdvertisementDAO();
-
         request.setAttribute("originalPage", request.getParameter("originalPage"));
-        if (request.getParameter("userId") == null) {
-            List<BaseModelInterface> users = userDAO.getListInfo();
-            request.setAttribute("users", users);
-        }else{
-            request.setAttribute("user", userDAO.getFullInfo(Integer.parseInt(request.getParameter("userId"))));
-        }
 
-        if (request.getParameter("advertisementId") == null) {
-            List<BaseModelInterface> advertisements = advertisementDAO.getListInfo();
-            request.setAttribute("advertisements", advertisements);
-        }else{
-            request.setAttribute("advertisement", advertisementDAO.getFullInfo(Integer.parseInt(request.getParameter("advertisementId"))));
-        }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/wishPages/createWish.jsp");
         try {
+            if (request.getParameter("userId") == null) {
+                List<BaseModelInterface> users = userDAO.getListInfo();
+                request.setAttribute("users", users);
+            } else {
+                request.setAttribute("user", userDAO.getFullInfo(Integer.parseInt(request.getParameter("userId"))));
+            }
+            if (request.getParameter("advertisementId") == null) {
+                List<BaseModelInterface> advertisements = advertisementDAO.getListInfo();
+                request.setAttribute("advertisements", advertisements);
+            } else {
+                request.setAttribute("advertisement", advertisementDAO.getFullInfo(Integer.parseInt(request.getParameter("advertisementId"))));
+            }
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/wishPages/createWish.jsp");
             dispatcher.forward(request, response);
+
+        } catch (NumberFormatException e) {
+            logger.error("Parameter is not number", e);
         } catch (ServletException e) {
             logger.error("Forward ServletException", e);
         } catch (IOException e) {

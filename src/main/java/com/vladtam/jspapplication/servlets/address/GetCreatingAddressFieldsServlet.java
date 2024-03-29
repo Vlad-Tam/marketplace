@@ -2,7 +2,6 @@ package com.vladtam.jspapplication.servlets.address;
 
 import com.vladtam.jspapplication.daos.CityDAO;
 import com.vladtam.jspapplication.models.BaseModelInterface;
-import com.vladtam.jspapplication.servlets.advertisement.AdvertisementListServlet;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;

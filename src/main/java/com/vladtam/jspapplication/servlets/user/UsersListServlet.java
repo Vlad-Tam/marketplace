@@ -2,7 +2,6 @@ package com.vladtam.jspapplication.servlets.user;
 
 import com.vladtam.jspapplication.daos.UserDAO;
 import com.vladtam.jspapplication.models.BaseModelInterface;
-import com.vladtam.jspapplication.servlets.wish.GetCreatingWishesFieldsServlet;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
