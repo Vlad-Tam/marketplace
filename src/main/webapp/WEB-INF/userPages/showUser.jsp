@@ -31,12 +31,23 @@
     <% } %>
     <h4>Wishes:</h4>
     <% for (Advertisement wish : user.getWishList()) { %>
-    <li>
-        <a href="<%= "../../advertisements/" + wish.getId() %>">
+    <li style="display: flex; align-items: center;">
+        <a href="<%= "../../advertisements/" + wish.getId() %>" style="margin-right: 10px;">
             <%= "   " + wish.getBasicInfo().getName() + ", price: " + wish.getBasicInfo().getPrice() + "$" %>
         </a>
+        <form action="/DeleteWishServlet" method="post" style="margin-bottom: 0;">
+            <input type="hidden" name="userId" value="<%=user.getId()%>" />
+            <input type="hidden" name="advertisementId" value="<%=wish.getId()%>" />
+            <input type="hidden" name="originalPage" value="<%="/users/" + user.getId()%>" />
+            <input type="submit" value="Delete" />
+        </form>
     </li>
     <% } %>
+    <form action="/GetCreatingWishesFieldsServlet" method="post">
+        <input type="hidden" name="userId" value="<%=user.getId()%>" />
+        <input type="hidden" name="originalPage" value="<%="/users/" + user.getId()%>" />
+        <input type="submit" value="Add new wish" />
+    </form>
     <h4>Comments:</h4>
     <% for (Review review : user.getCommentsList()) { %>
     <li>

@@ -110,4 +110,21 @@
         <servlet-name>GetCreatingAdvertisementsFieldsServlet</servlet-name>
         <url-pattern>/advertisements/new</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>WishListServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.wish.WishesListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WishListServlet</servlet-name>
+        <url-pattern>/wishes</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GetCreatingWishFieldsServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.wish.GetCreatingWishesFieldsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCreatingWishFieldsServlet</servlet-name>
+        <url-pattern>/wishes/new</url-pattern>
+    </servlet-mapping>
 </web-app>

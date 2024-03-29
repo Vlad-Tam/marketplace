@@ -17,6 +17,7 @@
         <br><a href="addresses">Addresses</a></br>
         <br><a href="users">Users</a></br>
         <br><a href="advertisements">Advertisements</a></br>
+        <br><a href="wishes">Wishes</a></br>
     </h3>
 </body>
 </html>
