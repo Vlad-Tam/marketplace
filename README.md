@@ -35,8 +35,7 @@
 - <a href="https://github.com/Vlad-Tam/marketplace/tree/main/task3/src/main/java/com/vladtam/jspapplication/servlets">Servlets</a>
 - <a href="https://github.com/Vlad-Tam/marketplace/tree/main/task3/src/main/java/com/vladtam/jspapplication/daos">DAOs</a>
 - <a href="https://github.com/Vlad-Tam/marketplace/tree/main/task3/src/main/java/com/vladtam/jspapplication/models">Models</a>
-- <a href="https://github.com/Vlad-Tam/marketplace/tree/main/task3/src/main/java/com/vladtam/jspapplication/views">Views</a>
-- <a href="https://github.com/Vlad-Tam/marketplace/tree/main/task3/results">Results</a>
+- <a href="https://github.com/Vlad-Tam/marketplace/tree/main/task3/results">Result screenshots</a>
 
   
 ### Задание 4
