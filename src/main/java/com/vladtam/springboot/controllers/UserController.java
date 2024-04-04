@@ -51,8 +51,9 @@ public class UserController {
     public String newUser(@RequestParam String name, @RequestParam String surname, @RequestParam String phoneNumber,
                           @RequestParam String email, @RequestParam String password, @RequestParam String addressId){
         User user = new User(new BasicUserInfo(name, surname, phoneNumber, email, password), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
-        if(addressRepo.findById(Long.parseLong(addressId)).isPresent()) {
-            user.setAddress(addressRepo.findById(Long.parseLong(addressId)).get());
+        Optional<Address> addressOptional = addressRepo.findById(Long.parseLong(addressId));
+        if(addressOptional.isPresent()) {
+            user.setAddress(addressOptional.get());
             userRepo.save(user);
             return "redirect:/users";
         }else

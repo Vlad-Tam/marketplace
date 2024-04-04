@@ -58,9 +58,11 @@ public class AdvertisementController {
     public String newUser(@RequestParam String name, @RequestParam String description, @RequestParam String price,
                           @RequestParam String categoryId, @RequestParam String sellerId){
         Advertisement advertisement = new Advertisement(new BasicAdvertisementInfo(name, description, Double.valueOf(price)), false, new HashSet<>());
-        if(categoryRepo.findById(Long.parseLong(categoryId)).isPresent() && userRepo.findById(Long.parseLong(sellerId)).isPresent()) {
-            advertisement.setCategory(categoryRepo.findById(Long.parseLong(categoryId)).get());
-            advertisement.setVendor(userRepo.findById(Long.parseLong(sellerId)).get());
+        Optional<Category> categoryOptional = categoryRepo.findById(Long.parseLong(categoryId));
+        Optional<User> userOptional = userRepo.findById(Long.parseLong(sellerId));
+        if(categoryOptional.isPresent() && userOptional.isPresent()) {
+            advertisement.setCategory(categoryOptional.get());
+            advertisement.setVendor(userOptional.get());
             advertisementRepo.save(advertisement);
             return "redirect:/advertisements";
         }else

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/wishes")
@@ -44,25 +45,31 @@ public class WishController {
             Iterable<User> users = userRepo.findAll();
             model.put("users", users);
         } else {
-            if(userRepo.findById(Long.parseLong(userId)).isPresent()) {
-                model.put("user", userRepo.findById(Long.parseLong(userId)).get());
-            }
+            Optional<User> userOptional = userRepo.findById(Long.parseLong(userId));
+            if(userOptional.isPresent()) {
+                model.put("user", userOptional.get());
+            }else
+                return "errorPages/errorPage";
         }
         if (advertisementId == null) {
             Iterable<Advertisement> advertisements = advertisementRepo.findAll();
             model.put("advertisements", advertisements);
         } else {
-            if(advertisementRepo.findById(Long.parseLong(advertisementId)).isPresent()) {
-                model.put("advertisement", advertisementRepo.findById(Long.parseLong(advertisementId)).get());
-            }
+            Optional<Advertisement> advertisementOptional = advertisementRepo.findById(Long.parseLong(advertisementId));
+            if(advertisementOptional.isPresent()) {
+                model.put("advertisement", advertisementOptional.get());
+            }else
+                return "errorPages/errorPage";
         }
         return "wishPages/createWishPage";
     }
 
     @PostMapping("/creating")
     public String newWish(@RequestParam String userId, @RequestParam String advertisementId, @RequestParam String originalPage) {
-        if (userRepo.findById(Long.parseLong(userId)).isPresent() && advertisementRepo.findById(Long.parseLong(advertisementId)).isPresent() && isGoodCreatePath(originalPage)) {
-            Wish wish = new Wish(Integer.parseInt(userId), Integer.parseInt(advertisementId), userRepo.findById(Long.parseLong(userId)).get(), advertisementRepo.findById(Long.parseLong(advertisementId)).get());
+        Optional<User> userOptional = userRepo.findById(Long.parseLong(userId));
+        Optional<Advertisement> advertisementOptional = advertisementRepo.findById(Long.parseLong(advertisementId));
+        if (userOptional.isPresent() && advertisementOptional.isPresent() && isGoodCreatePath(originalPage)) {
+            Wish wish = new Wish(Integer.parseInt(userId), Integer.parseInt(advertisementId), userOptional.get(), advertisementOptional.get());
             wishRepo.save(wish);
             return "redirect:" + originalPage;
         }else
