@@ -9,17 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/wishes")
 public class WishController {
-    WishRepo wishRepo;
-    UserRepo userRepo;
-    AdvertisementRepo advertisementRepo;
+    private WishRepo wishRepo;
+    private UserRepo userRepo;
+    private AdvertisementRepo advertisementRepo;
+    private static final String errorPath = "errorPages/errorPage";
 
     public WishController() {}
 
@@ -49,7 +48,7 @@ public class WishController {
             if(userOptional.isPresent()) {
                 model.put("user", userOptional.get());
             }else
-                return "errorPages/errorPage";
+                return errorPath;
         }
         if (advertisementId == null) {
             Iterable<Advertisement> advertisements = advertisementRepo.findAll();
@@ -59,7 +58,7 @@ public class WishController {
             if(advertisementOptional.isPresent()) {
                 model.put("advertisement", advertisementOptional.get());
             }else
-                return "errorPages/errorPage";
+                return errorPath;
         }
         return "wishPages/createWishPage";
     }
@@ -73,7 +72,7 @@ public class WishController {
             wishRepo.save(wish);
             return "redirect:" + originalPage;
         }else
-            return "errorPages/errorPage";
+            return errorPath;
     }
 
     @PostMapping("/deleting")
@@ -83,7 +82,7 @@ public class WishController {
             wishRepo.deleteById(wishPK);
             return "redirect:" + originalPage;
         }else
-            return "errorPages/errorPage";
+            return errorPath;
     }
 
     private boolean isGoodCreatePath(String path) {
