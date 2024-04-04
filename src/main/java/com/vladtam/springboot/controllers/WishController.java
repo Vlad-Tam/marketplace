@@ -18,7 +18,7 @@ public class WishController {
     private WishRepo wishRepo;
     private UserRepo userRepo;
     private AdvertisementRepo advertisementRepo;
-    private static final String errorPath = "errorPages/errorPage";
+    private static final String ERROR_PATH = "errorPages/errorPage";
 
     public WishController() {}
 
@@ -48,7 +48,7 @@ public class WishController {
             if(userOptional.isPresent()) {
                 model.put("user", userOptional.get());
             }else
-                return errorPath;
+                return ERROR_PATH;
         }
         if (advertisementId == null) {
             Iterable<Advertisement> advertisements = advertisementRepo.findAll();
@@ -58,7 +58,7 @@ public class WishController {
             if(advertisementOptional.isPresent()) {
                 model.put("advertisement", advertisementOptional.get());
             }else
-                return errorPath;
+                return ERROR_PATH;
         }
         return "wishPages/createWishPage";
     }
@@ -72,7 +72,7 @@ public class WishController {
             wishRepo.save(wish);
             return "redirect:" + originalPage;
         }else
-            return errorPath;
+            return ERROR_PATH;
     }
 
     @PostMapping("/deleting")
@@ -82,7 +82,7 @@ public class WishController {
             wishRepo.deleteById(wishPK);
             return "redirect:" + originalPage;
         }else
-            return errorPath;
+            return ERROR_PATH;
     }
 
     private boolean isGoodCreatePath(String path) {
@@ -92,6 +92,8 @@ public class WishController {
         }else if(path.startsWith("/advertisements/")) {
             String idPart = path.substring("/advertisements/".length());
             return idPart.matches("\\d+");
+        }else if(path.startsWith("/wishes")){
+            return true;
         }
         return false;
     }
