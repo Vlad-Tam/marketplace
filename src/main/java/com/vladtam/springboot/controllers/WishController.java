@@ -1,5 +1,5 @@
 package com.vladtam.springboot.controllers;
- 
+
 import com.vladtam.springboot.entities.*;
 import com.vladtam.springboot.entities.pk.WishPK;
 import com.vladtam.springboot.repos.AdvertisementRepo;
