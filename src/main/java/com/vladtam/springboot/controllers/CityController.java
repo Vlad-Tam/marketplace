@@ -12,8 +12,14 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/cities")
 public class CityController {
-    @Autowired
     private CityRepo cityRepo;
+
+    public CityController() {}
+
+    @Autowired
+    public CityController(CityRepo cityRepo) {
+        this.cityRepo = cityRepo;
+    }
 
     @GetMapping
     public String citiesList(Map<String, Object> model){

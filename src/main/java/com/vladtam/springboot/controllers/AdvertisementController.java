@@ -3,7 +3,6 @@ package com.vladtam.springboot.controllers;
 import com.vladtam.springboot.entities.*;
 import com.vladtam.springboot.repos.AdvertisementRepo;
 import com.vladtam.springboot.repos.CategoryRepo;
-import com.vladtam.springboot.repos.CityRepo;
 import com.vladtam.springboot.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,12 +15,18 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/advertisements")
 public class AdvertisementController {
-    @Autowired
     private AdvertisementRepo advertisementRepo;
-    @Autowired
     private UserRepo userRepo;
-    @Autowired
     private CategoryRepo categoryRepo;
+
+    public AdvertisementController() {}
+
+    @Autowired
+    public AdvertisementController(AdvertisementRepo advertisementRepo, UserRepo userRepo, CategoryRepo categoryRepo) {
+        this.advertisementRepo = advertisementRepo;
+        this.userRepo = userRepo;
+        this.categoryRepo = categoryRepo;
+    }
 
     @GetMapping
     public String advertisementsList(Map<String, Object> model){
@@ -53,10 +58,13 @@ public class AdvertisementController {
     public String newUser(@RequestParam String name, @RequestParam String description, @RequestParam String price,
                           @RequestParam String categoryId, @RequestParam String sellerId){
         Advertisement advertisement = new Advertisement(new BasicAdvertisementInfo(name, description, Double.valueOf(price)), false, new HashSet<>());
-        advertisement.setCategory(categoryRepo.findById(Long.parseLong(categoryId)).get());
-        advertisement.setVendor(userRepo.findById(Long.parseLong(sellerId)).get());
-        advertisementRepo.save(advertisement);
-        return "redirect:/advertisements";
+        if(categoryRepo.findById(Long.parseLong(categoryId)).isPresent() && userRepo.findById(Long.parseLong(sellerId)).isPresent()) {
+            advertisement.setCategory(categoryRepo.findById(Long.parseLong(categoryId)).get());
+            advertisement.setVendor(userRepo.findById(Long.parseLong(sellerId)).get());
+            advertisementRepo.save(advertisement);
+            return "redirect:/advertisements";
+        }else
+            return "errorPages/errorPage";
     }
 
     @PostMapping("/{id}/deleting")

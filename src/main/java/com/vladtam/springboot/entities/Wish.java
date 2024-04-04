@@ -1,6 +1,6 @@
 package com.vladtam.springboot.entities;
 
-import com.vladtam.springboot.entities.primaryKeys.WishPK;
+import com.vladtam.springboot.entities.pk.WishPK;
 import jakarta.persistence.*;
 
 @Entity

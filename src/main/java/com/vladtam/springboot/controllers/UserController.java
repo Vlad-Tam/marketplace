@@ -12,10 +12,16 @@ import java.util.*;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
     private UserRepo userRepo;
-    @Autowired
     private AddressRepo addressRepo;
+
+    public UserController() {}
+
+    @Autowired
+    public UserController(UserRepo userRepo, AddressRepo addressRepo) {
+        this.userRepo = userRepo;
+        this.addressRepo = addressRepo;
+    }
 
     @GetMapping
     public String usersList(Map<String, Object> model){
@@ -45,9 +51,12 @@ public class UserController {
     public String newUser(@RequestParam String name, @RequestParam String surname, @RequestParam String phoneNumber,
                           @RequestParam String email, @RequestParam String password, @RequestParam String addressId){
         User user = new User(new BasicUserInfo(name, surname, phoneNumber, email, password), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
-        user.setAddress(addressRepo.findById(Long.parseLong(addressId)).get());
-        userRepo.save(user);
-        return "redirect:/users";
+        if(addressRepo.findById(Long.parseLong(addressId)).isPresent()) {
+            user.setAddress(addressRepo.findById(Long.parseLong(addressId)).get());
+            userRepo.save(user);
+            return "redirect:/users";
+        }else
+            return "errorPages/errorPage";
     }
 
     @PostMapping("/{id}/deleting")
