@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Creating wish</title>
+</head>
+<body>
+<h1>Creating new wish:</h1>
+<form action="/wishes/creating" method="post">
+  <h3>
+    <label for="user">User:</label><br>
+  </h3>
+  <h4>
+    <div th:if="${user == null}">
+      <select id="userSelect" name="userId">
+        <option th:each="user : ${users}"
+                th:value="${user.getId()}"
+                th:text="${user.getBasicInfo().getSurname() + ' ' + user.getBasicInfo().getName()}">User Name</option>
+      </select><br>
+    </div>
+    <div th:unless="${user == null}">
+      <input type="hidden" id="user" name="userId" th:value="${user.getId()}" />
+      <p th:text="${user.getBasicInfo().getSurname() + ' ' + user.getBasicInfo().getName()}">User Name</p>
+    </div>
+  </h4>
+
+  <br><br>
+
+  <h3>
+    <label for="advertisement">Advertisement:</label><br>
+  </h3>
+  <h4>
+    <div th:if="${advertisement == null}">
+      <select id="advertisementSelect" name="advertisementId">
+        <option th:each="advertisement : ${advertisements}"
+                th:value="${advertisement.getId()}"
+                th:text="${advertisement.getBasicInfo().getName() + ', price: ' + advertisement.getBasicInfo().getPrice() + '$'}">Advertisement Info</option>
+      </select><br>
+    </div>
+    <div th:unless="${advertisement == null}">
+      <input type="hidden" id="advertisement" name="advertisementId" th:value="${advertisement.getId()}" />
+      <p th:text="${advertisement.getBasicInfo().getName() + ', price: ' + advertisement.getBasicInfo().getPrice() + '$'}">Advertisement Info</p>
+    </div>
+  </h4>
+  <input type="hidden" name="originalPage" th:value="${originalPage}" />
+  <input type="submit" value="Create">
+</form>
+</body>
+</html>

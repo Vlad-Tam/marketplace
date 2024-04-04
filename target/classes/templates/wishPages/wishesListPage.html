@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wishes</title>
+</head>
+<body>
+    <h1>Wishes:</h1>
+    <ul>
+      <li th:each="wish : ${wishes}">
+          <span th:text="${wish.getUser().getBasicInfo().getSurname()} + ' ' + ${wish.getUser().getBasicInfo().getName()} + ' <-> ' + ${wish.getAdvertisement().getBasicInfo().getName()} + ', price: ' + ${wish.getAdvertisement().getBasicInfo().getPrice()} + '$'"></span><br>
+      </li>
+    </ul>
+    <h3>
+        <form action="/wishes/new" method="post">
+            <input type="hidden" name="originalPage" value="/wishes" />
+            <input type="submit" value="Add new wish" />
+        </form>
+      <br><a href="../">Return to main menu</a>
+    </h3>
+</body>
+</html>
