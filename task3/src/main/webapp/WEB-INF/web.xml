@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+    <welcome-file-list>
+        <welcome-file>/WEB-INF/menuPages/mainMenu.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>AddressesListServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.address.AddressesListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddressesListServlet</servlet-name>
+        <url-pattern>/addresses</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShowAddressServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.address.ShowAddressServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShowAddressServlet</servlet-name>
+        <url-pattern>/addresses/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GetCreatingAddressFieldsServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.address.GetCreatingAddressFieldsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCreatingAddressFieldsServlet</servlet-name>
+        <url-pattern>/addresses/new</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>CitiesListServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.city.CitiesListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CitiesListServlet</servlet-name>
+        <url-pattern>/cities</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShowCityList</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.city.ShowCityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShowCityList</servlet-name>
+        <url-pattern>/cities/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>CreateCityPage</servlet-name>
+        <jsp-file>/WEB-INF/cityPages/createCity.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateCityPage</servlet-name>
+        <url-pattern>/cities/new</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>UsersListServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.user.UsersListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UsersListServlet</servlet-name>
+        <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShowUserServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.user.ShowUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShowUserServlet</servlet-name>
+        <url-pattern>/users/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GetCreatingUsersFieldsServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.user.GetCreatingUsersFieldsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCreatingUsersFieldsServlet</servlet-name>
+        <url-pattern>/users/new</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>AdvertisementListServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.advertisement.AdvertisementListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdvertisementListServlet</servlet-name>
+        <url-pattern>/advertisements</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShowAdvertisementServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.advertisement.ShowAdvertisementServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShowAdvertisementServlet</servlet-name>
+        <url-pattern>/advertisements/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GetCreatingAdvertisementsFieldsServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.advertisement.GetCreatingAdvertisementFieldsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCreatingAdvertisementsFieldsServlet</servlet-name>
+        <url-pattern>/advertisements/new</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>WishListServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.wish.WishesListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WishListServlet</servlet-name>
+        <url-pattern>/wishes</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GetCreatingWishFieldsServlet</servlet-name>
+        <servlet-class>com.vladtam.jspapplication.servlets.wish.GetCreatingWishesFieldsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCreatingWishFieldsServlet</servlet-name>
+        <url-pattern>/wishes/new</url-pattern>
+    </servlet-mapping>
+</web-app>
