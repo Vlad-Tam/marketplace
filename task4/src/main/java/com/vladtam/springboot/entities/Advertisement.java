@@ -12,7 +12,7 @@ public class Advertisement {
     private Integer id;
 
     @Embedded
-    private BasicAdvertisementInfo basicInfo = new BasicAdvertisementInfo();
+    private BaseAdvertisementInfo basicInfo = new BaseAdvertisementInfo();
 
     private Boolean saleStatus;
 
@@ -35,7 +35,7 @@ public class Advertisement {
     public Advertisement() {
     }
 
-    public Advertisement(BasicAdvertisementInfo basicInfo, Boolean saleStatus, Set<User> wishingPeopleList) {
+    public Advertisement(BaseAdvertisementInfo basicInfo, Boolean saleStatus, Set<User> wishingPeopleList) {
         this.basicInfo = basicInfo;
         this.saleStatus = saleStatus;
         this.wishingPeopleList = wishingPeopleList;
@@ -49,11 +49,11 @@ public class Advertisement {
         this.id = id;
     }
 
-    public BasicAdvertisementInfo getBasicInfo() {
+    public BaseAdvertisementInfo getBasicInfo() {
         return basicInfo;
     }
 
-    public void setBasicInfo(BasicAdvertisementInfo basicInfo) {
+    public void setBasicInfo(BaseAdvertisementInfo basicInfo) {
         this.basicInfo = basicInfo;
     }
 

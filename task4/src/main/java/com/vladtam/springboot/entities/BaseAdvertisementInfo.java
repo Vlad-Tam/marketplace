@@ -2,15 +2,15 @@ package com.vladtam.springboot.entities;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class BasicAdvertisementInfo {
+public class BaseAdvertisementInfo {
     private String name;
     private String description;
     private Double price;
 
-    public BasicAdvertisementInfo() {
+    public BaseAdvertisementInfo() {
     }
 
-    public BasicAdvertisementInfo(String name, String description, Double price) {
+    public BaseAdvertisementInfo(String name, String description, Double price) {
         this.name = name;
         this.description = description;
         this.price = price;

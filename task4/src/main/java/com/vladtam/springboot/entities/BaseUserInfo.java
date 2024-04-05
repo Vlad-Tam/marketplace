@@ -3,7 +3,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class BasicUserInfo {
+public class BaseUserInfo {
     private String name;
     private String surname;
 
@@ -13,10 +13,10 @@ public class BasicUserInfo {
     private String email;
     private String password;
 
-    public BasicUserInfo() {
+    public BaseUserInfo() {
     }
 
-    public BasicUserInfo(String name, String surname, String phoneNumber, String email, String password) {
+    public BaseUserInfo(String name, String surname, String phoneNumber, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
