@@ -22,7 +22,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
+          key: ${{ runner.os }}-m2-${{ hashFiles('task4/**/pom.xml') }}
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache Maven packages
         uses: actions/cache@v3
