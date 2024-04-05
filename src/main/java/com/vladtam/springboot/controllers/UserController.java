@@ -50,7 +50,7 @@ public class UserController {
     @PostMapping("/creating")
     public String newUser(@RequestParam String name, @RequestParam String surname, @RequestParam String phoneNumber,
                           @RequestParam String email, @RequestParam String password, @RequestParam String addressId){
-        User user = new User(new BasicUserInfo(name, surname, phoneNumber, email, password), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+        User user = new User(new BaseUserInfo(name, surname, phoneNumber, email, password), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         Optional<Address> addressOptional = addressRepo.findById(Long.parseLong(addressId));
         if(addressOptional.isPresent()) {
             user.setAddress(addressOptional.get());

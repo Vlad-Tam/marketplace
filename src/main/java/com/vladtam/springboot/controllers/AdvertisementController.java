@@ -57,7 +57,7 @@ public class AdvertisementController {
     @PostMapping("/creating")
     public String newUser(@RequestParam String name, @RequestParam String description, @RequestParam String price,
                           @RequestParam String categoryId, @RequestParam String sellerId){
-        Advertisement advertisement = new Advertisement(new BasicAdvertisementInfo(name, description, Double.valueOf(price)), false, new HashSet<>());
+        Advertisement advertisement = new Advertisement(new BaseAdvertisementInfo(name, description, Double.valueOf(price)), false, new HashSet<>());
         Optional<Category> categoryOptional = categoryRepo.findById(Long.parseLong(categoryId));
         Optional<User> userOptional = userRepo.findById(Long.parseLong(sellerId));
         if(categoryOptional.isPresent() && userOptional.isPresent()) {

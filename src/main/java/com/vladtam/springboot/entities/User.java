@@ -13,7 +13,7 @@ public class User {
     private Integer id;
 
     @Embedded
-    private BasicUserInfo basicInfo = new BasicUserInfo();
+    private BaseUserInfo basicInfo = new BaseUserInfo();
 
     @Column(name = "registration_date")
     @Temporal(TemporalType.DATE)
@@ -41,8 +41,8 @@ public class User {
     public User() {
     }
 
-    public User(BasicUserInfo basicUserInfo, Set<Advertisement> wishList, Set<Advertisement> salesList, Set<Review> receivedCommentsList, Set<Review> sentCommentsList) {
-        this.basicInfo = basicUserInfo;
+    public User(BaseUserInfo baseUserInfo, Set<Advertisement> wishList, Set<Advertisement> salesList, Set<Review> receivedCommentsList, Set<Review> sentCommentsList) {
+        this.basicInfo = baseUserInfo;
         this.wishList = wishList;
         this.salesList = salesList;
         this.receivedCommentsList = receivedCommentsList;
@@ -57,11 +57,11 @@ public class User {
         this.id = id;
     }
 
-    public BasicUserInfo getBasicInfo() {
+    public BaseUserInfo getBasicInfo() {
         return basicInfo;
     }
 
-    public void setBasicInfo(BasicUserInfo basicInfo) {
+    public void setBasicInfo(BaseUserInfo basicInfo) {
         this.basicInfo = basicInfo;
     }
 
