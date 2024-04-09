@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<h1>Choice user:</h1>
+<ul>
+  <li th:each="user : ${users}">
+    <a th:href="@{'/users/' + ${user.getId()}}" th:text="${user.getBasicInfo().getSurname()} + ' ' + ${user.getBasicInfo().getName()}"></a>
+  </li>
+</ul>
+<h3>
+  <br><a href="/users/new">Create new user</a>
+  <br><a href="../">Return to main menu</a>
+</h3>
+</body>
+</html>

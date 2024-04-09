@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advertisement</title>
+</head>
+<body>
+    <h1>Advertisement information:</h1>
+    <h4>
+        <span th:text= "'ID: ' + ${advertisement.getId()} + ','"></span><br>
+        <span th:text= "'Name: ' + ${advertisement.getBasicInfo().getName()} + ','"></span><br>
+        <span th:text= "'Description: ' + ${advertisement.getBasicInfo().getDescription()} + ','"></span><br>
+        <span th:text= "'Price: ' + ${advertisement.getBasicInfo().getPrice()} + ','"></span><br>
+        <span th:text= "'Category: ' + ${advertisement.getCategory().getName()} + ','"></span><br>
+        <span th:text= "'Category description: ' + ${advertisement.getCategory().getDescription()} + ','"></span><br>
+        <span th:text= "'Seller: ' + ${advertisement.getVendor().getBasicInfo().getSurname()} + ' ' + ${advertisement.getVendor().getBasicInfo().getName()} + '.'"></span><br>
+    </h4>
+    <h3>Wishing people:</h3>
+    <ul>
+        <li th:each="user : ${advertisement.getWishingPeopleList()}" style="display: flex; align-items: center;">
+            <a th:href="@{'/users/' + ${user.getId()}}" th:text="'    ' + ${user.getBasicInfo().getSurname()} + ' ' + ${user.getBasicInfo().getName()}" style="margin-right: 10px;"></a>
+            <form action="/wishes/deleting" method="post" style="margin-bottom: 0;">
+                <input type="hidden" name="userId" th:value="${user.getId()}" />
+                <input type="hidden" name="advertisementId" th:value="${advertisement.getId()}" />
+                <input type="hidden" name="originalPage" th:value="'/advertisements/' + ${advertisement.getId()}" />
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    </ul>
+    <form action="/wishes/new" method="post">
+        <input type="hidden" name="advertisementId" th:value="${advertisement.getId()}" />
+        <input type="hidden" name="originalPage" th:value="'/advertisements/' + ${advertisement.getId()}" />
+        <input type="submit" value="Add to wish list" />
+    </form>
+    <h3>
+        <form th:action="@{${advertisement.getId()} + '/deleting'}" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit">Delete this advertisement</button>
+        </form>
+        <a href="../advertisements">Return to advertisements list</a>
+    </h3>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>City</title>
+</head>
+<body>
+    <h1>City information:</h1>
+    <h4>
+        <span th:text= "'ID: ' + ${city.getId()} + ', '"></span><br>
+        <span th:text= "'Region: ' + ${city.getRegion()} + ', '"></span><br>
+        <span th:text= "'Name: ' + ${city.getName()} + '.'"></span><br>
+    </h4>
+    <h3>
+        <form th:action="@{${city.getId()} + '/deleting'}" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit">Delete this city</button>
+        </form>
+        <br><a href="../cities">Return to cities list</a>
+    </h3>
+</body>
+</html>
